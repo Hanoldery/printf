@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 12:25:16 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/09/26 17:18:50 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/10/05 19:07:14 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_conv		*create_lst_conv()
 	nlst->data = (intmax_t *)malloc(sizeof(intmax_t));
 	nlst->sdata = (wint_t *)malloc(sizeof(wint_t));
 	nlst->champs = 1;
-	nlst->precision = 0;
+	nlst->precision = 1;
 	nlst->prec_changed = 0;
 	nlst->conv = (char)malloc(sizeof(char));
 	nlst->conv = '\0';
@@ -53,7 +53,7 @@ void		initiate_pointer(ft_fmt func)
 	while (*(s1 + i))
 		func[*(s1 + i++)] = length_fmt;
 	func['.'] = prec_fmt;
-	s1 = ft_strcpy(s1, "diouxXeEfFaAgGcCsSpn%");
+	s1 = ft_strcpy(s1, "dDioOuUxXeEfFaAgGcCsSpn%");
 	i = 0;
 	while (*(s1 + i))
 		func[*(s1 + i++)] = conv_fmt;
@@ -64,7 +64,6 @@ void	initiate_pointer_print(ft_fmt func)
 {
 	func['#'] = handle_hash;
 	func['0'] = handle_zero;
-	func['-'] = handle_minus;
 	func['+'] = handle_space_plus;
 	func[' '] = handle_space_plus;
 	func['d'] = handle_diu;

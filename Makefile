@@ -6,7 +6,7 @@
 #    By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/08/11 13:08:28 by pgerbaud          #+#    #+#              #
-#    Updated: 2017/09/26 17:08:48 by pgerbaud         ###   ########.fr        #
+#    Updated: 2017/10/05 18:12:46 by pgerbaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,12 +38,16 @@ LIBFT_SRC = putchar \
 			strlen \
 			strdup \
 			strcpy \
+			strncpy \
 			strcat \
 			strncat \
 			strnew \
 			imaxtoa \
+			uimaxtoa \
 			strjoinfree \
-			itoa_base
+			imaxtoa_base \
+			uimaxtoa_base \
+			strdelinside
 #CFLAGS += -Wall -Wextra -Werror
 
 CFLAGS += $(foreach d, $(INCLUDE_PATH), -I$d)

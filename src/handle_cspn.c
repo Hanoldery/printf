@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 14:50:28 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/09/26 17:20:20 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/10/05 17:12:10 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,23 @@ char		*handle_cC(t_conv **conv, char *fmt)
 	wint_t	str;
 	char	*rslt;
 
-	str = *((*conv)->sdata);
+	str = 0;
 	rslt = NULL;
+//	printf("HERE _%d_ _%d_\n", !(*conv)->sdata, !(str = *(*conv)->sdata));
+	if (!(*conv)->sdata || !(str = *(*conv)->sdata))
+		return (NULL);
+//	printf("HERE\n");
 	if (((*conv)->conv == 'C' || ft_strchr((*conv)->modif, 'l'))
 			&& MB_CUR_MAX > 1)
+	{
 		rslt = ft_strdup(wchar_to_str(str));
+	}
 	else
-		*rslt = (char)*((*conv)->sdata);
+	{
+		rslt = ft_strnew(2);
+		*rslt = (char)*(*conv)->sdata;
+	}
+//	printf("HERE\n");
 	fmt = putstr_in_str_if_diff(fmt, rslt, '%', 0);
 	return (fmt);
 }
@@ -32,14 +42,21 @@ char		*handle_sS(t_conv **conv, char *fmt)
 {
 	wint_t	*str;
 	char	*rslt;
+	int		max;
 
+	max = (*conv)->precision;
 	str = (*conv)->sdata;
 	rslt = NULL;
+	if (!(*conv)->sdata)
+		return (NULL);
+//	printf("Zero \n %c \n %s\n %d \n", (*conv)->conv, ft_strchr((*conv)->modif, 'l'), MB_CUR_MAX);
 	if (((*conv)->conv == 'C' || ft_strchr((*conv)->modif, 'l'))
 			&& MB_CUR_MAX > 1)
 		rslt = ft_strdup(wcharstr_to_str(str));
 	else
-		*rslt = (char)*((*conv)->sdata);
+		rslt = ft_strdup((char *)(*conv)->sdata);
+	if (ft_strlen(rslt) > (*conv)->precision && (*conv)->prec_changed)
+		*(rslt + (*conv)->precision ) = '\0';
 	fmt = putstr_in_str_if_diff(fmt, rslt, '%', 0);
 	return (rslt);
 }

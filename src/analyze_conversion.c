@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/11 12:17:54 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/09/26 17:37:41 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/10/05 19:11:05 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void		assign_args(t_conv **lstconv, va_list args)
 		else if ((*lstconv)->modif[0] == 'j')
 			(ft_strchr("di", (*lstconv)->conv)) ?
 				(*lstconv)->data[0] = va_arg(args, intmax_t)
-				: ((*lstconv)->udata = va_arg(args, uintmax_t));
+				: ((*lstconv)->data[0] = va_arg(args, intmax_t));
 		else
 			(*lstconv)->data[0] = va_arg(args, int);
 	}
@@ -61,33 +61,41 @@ void		assign_args(t_conv **lstconv, va_list args)
 				(*lstconv)->sdata = NULL;
 		}
 	}
+
 }
 
 void		assign_nexts(t_conv **lst, va_list args, int j, int *i)
 {
 	va_list cp;
 
+//	printf("ASSIGN 0.0\n");
 	if ((*lst)->champs == 0)
 		*i = ((*lst)->champs = va_arg(cp, unsigned int)) ? *++i: *i;
-	if ((*lst)->prec_changed && (*lst)->precision == 0)
+//	printf("ASSIGN 1.0\n");
+	if (!(*lst)->prec_changed && (*lst)->precision == 0)
 		*i = ((*lst)->precision = va_arg(cp, unsigned int)) ? *++i: *i;
+//	printf("ASSIGN 2.0\n");
 	if ((*lst)->champs < 0)
 	{
+//	printf("ASSIGN 3.0\n");
 		va_copy(cp, args);
 		while (j++ < *i)
 			va_arg(cp, void *);
 		(*lst)->champs = va_arg(cp, int);
 		va_end(cp);
 	}
+//	printf("ASSIGN 4.0\n");
 	j = 0;
 	if ((*lst)->precision < 0)
 	{
+//	printf("ASSIGN 5.0\n");
 		va_copy(cp, args);
 		while (j++ < *i)
 			va_arg(cp, void *);
 		(*lst)->precision = va_arg(cp, int);
 		va_end(cp);
 	}
+//	printf("ASSIGN 6.0\n");
 }
 
 int			get_lst_conv(const char *format, t_conv **lstconv, va_list args)
@@ -102,7 +110,14 @@ int			get_lst_conv(const char *format, t_conv **lstconv, va_list args)
 	lstmp = *lstconv;
 	while (lstmp)
 	{
+		//printf("\t%d.0\n", i);
+		if (lstmp->conv == '%')
+		{
+			lstmp = lstmp->next;
+			continue;
+		}
 		va_copy(cp, args);
+		//printf("\t%d.1\n", i);
 		assign_nexts(&lstmp, args, 0, &i);
 		if (lstmp->pos != 0)
 		{
@@ -127,7 +142,7 @@ int			get_lst_conv(const char *format, t_conv **lstconv, va_list args)
 		va_end(cp);
 		i++;
 		icp = 0;
-		//printf("\n\t__LAST__ \n\tDATA : %jd\n\tUDATA %ju\n\tSDATA : _%s_\n\tpos %d\t\tattr %s\n\tchamps %d\tprecision %d\n\tmodif %s\t\tconv %c\n\n", lstmp->data[0], lstmp->udata, (wint_t *)lstmp->sdata, lstmp->pos, lstmp->attr, lstmp->champs, lstmp->precision, lstmp->modif, lstmp->conv);
+//		printf("\n\t__LAST %s__ \n\tDATA : %jd\n\tUDATA %ju\n\tSDATA : _%s_\n\tpos %d\t\tattr %s\n\tchamps %d\tprecision %d\n\tmodif %s\t\tconv %c\n\n", format, lstmp->data[0], lstmp->udata, (wint_t *)lstmp->sdata, lstmp->pos, lstmp->attr, lstmp->champs, lstmp->precision, lstmp->modif, lstmp->conv);
 		lstmp = lstmp->next;
 	}
 	return 1;
@@ -166,6 +181,7 @@ void		analyze_conversion(const char *format, va_list args, t_conv **lst)
 	i = 0;
 	tmp = ft_strdup(format);
 	lstmp = *lst;
+//	printf("ANALYZE 0.0\n");
 	while (*tmp)
 	{
 		while ((*lst)->next)
@@ -175,15 +191,20 @@ void		analyze_conversion(const char *format, va_list args, t_conv **lst)
 		/*if (!(ft_strmchr(tmp, "diuxXeEfFaAgGcCsSpn")))
 			 MAYBE Peut-etre rajouter un '\0' a la fin
 			return (NULL);*/
+//		printf("ANALYZE 1.0 %d\n", (*lst)->precision);
 		analyze_conversion_dtls(tmp, lst, args);
+//		printf("ANALYZE 2.0 \t%s \t\t%s \t\t%d\n", format, tmp, i);
 	/*		printf("NULL CHAIN\n");  TODO return (NULL); a remplacer 
 		else
 			printf("\nCHAIN\n\n");*/
+//		printf("tmp : %s \tft_strmchr : %s\n", tmp, ft_strmchr(tmp, "diuxXeEfFaAgGcCsSpn%"));
 		tmp = ft_strmchr(tmp, "diuxXeEfFaAgGcCsSpn%");
-		//printf("\n\t__FIRST__ \n\tDATA : %jd\n\tUDATA %ju\n\tSDATA : _%s_\n\tpos %d\t\tattr %s\n\tchamps %d\tprecision %d\n\tmodif %s\t\tconv %c\n\n", (*lst)->data[0], (*lst)->udata, (wint_t *)(*lst)->sdata, (*lst)->pos, (*lst)->attr, (*lst)->champs, (*lst)->precision, (*lst)->modif, (*lst)->conv);
+//		printf("\n\t__FIRST %s__ \n\tDATA : %jd\n\tUDATA %ju\n\tSDATA : _%s_\n\tpos %d\t\tattr %s\n\tchamps %d\tprecision %d\n\tmodif %s\t\tconv %c\n\n", format, (*lst)->data[0], (*lst)->udata, (wint_t *)(*lst)->sdata, (*lst)->pos, (*lst)->attr, (*lst)->champs, (*lst)->precision, (*lst)->modif, (*lst)->conv);
 		(*lst)->next = create_lst_conv();
 		i++;
+		tmp++;
 	}
+//	printf("ANALYZE 2.5\n");
 	*lst = lstmp;
 	get_lst_conv(format, lst, args);
 }

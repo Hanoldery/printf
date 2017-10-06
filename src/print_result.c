@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/11 14:20:01 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/09/26 17:40:47 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/10/05 20:19:23 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,27 @@
 
 char	*delete_conv_inside(char *fmt)
 {
-	char	*part1;
-	char	*part2;
-	int		i;
-	int		j;
+	char	*rslt;
+	int		begin;
+	int		end;
 
-	j = 0;
-	i = 0;
-	part1 = fmt;
-	part2 = fmt;
-	while (*(part1 + i))
+	begin = 0;
+	end = 0;
+	rslt = fmt;
+	while (*(rslt + begin))
 	{
-		while (*(part1 + i))//&& (*(part1 + i) != '%' || *(part1 + i + 1) == '%'))
-			i++;
-		if (!*(part1 + i))
-			return (part1);
-		part1 = ft_strsub(fmt, 0, i + 1);
-		part2 = fmt + i + 1;
-		//printf("\t\t 0-%d : __%s__ and __%s__ from __%s__\n", i, part1, part2, fmt);
-		while (!ft_strchr("diouxXeEfFgGaAcCsSpn%", *(part2 + j)))
-			j++;
-		part2 = ft_strsub(part2, j + 1, ft_strlen(part2));
-		//printf("\t\t 0-%d : __%s__ and __%s__ from __%s__\n", i, part1, part2, fmt);
-		part1 = ft_strjoinfree(part1, part2);
-		j = 0;
-		i++;
+		while (*(rslt + begin) && *(rslt + begin) != '%')
+			begin++;
+		if (!*(rslt + begin))
+			return (rslt);
+		end = begin + 1;
+		while (!ft_strchr("diouxXeEfFgGaAcCsSpn%", *(rslt + end)))
+			end++;
+		end++;
+		ft_strdelinside(&rslt, begin, end);
+		begin++;
 	}
-	return (part1);
+	return (rslt);
 }
 
 int		print_result(t_conv **lst, char *format)
@@ -57,30 +51,41 @@ int		print_result(t_conv **lst, char *format)
 	j = 0;
 	tmp = (char *)malloc(sizeof(char) * 2);
 	rslt = delete_conv_inside(fmt + i);
-	printf("\t- Deleted %% inside\n");
+//	printf("\t- Deleted %% inside\n");
 	initiate_pointer_print(func_print);
-	printf("\t- Filled pointer function\n");
-	printf("\t- Before : _%s_ with attr : '%s'\n", (rslt + i), (*lst)->attr);
+//	printf("\t- Filled pointer function\n");
+//	printf("\t- Before : _%s_ with attr : '%s'\n", (rslt + i), (*lst)->attr);
 	while (*(rslt + i))
 	{
-		printf("\t%d: %c\n", i, *(rslt + i));
 		if (*(rslt + i) == '%')
 		{
 			tmp = ft_strcpy(tmp, "%");
-			tmp = handle_champs(lst, tmp);
-			printf("\t- Filled pointer function\n");
+//			printf("\t- Filled pointer function _%s_\n", rslt + i);
+//			printf("\t1.0 rslt__%s__ \ttmp__%s__ conv-%c-\n", rslt, tmp, (*lst)->conv);
+			if (handle_null(lst, &tmp))
+				continue;
+			else
+			{
+				if (!(tmp = func_print[(*lst)->conv](lst, tmp)))
+				{
+					*lst = (*lst)->next;
+					i++;
+					continue;
+				}
+			}
 			while ((*lst)->attr[j])
 			{
-				printf("\t- Making attr : '%c' j%d\n", (*lst)->attr[j], j);
-				tmp = func_print[(*lst)->attr[j++]](lst, tmp);
+//				printf("\t- Making attr : '%c' j%d\n", (*lst)->attr[j], j);
+				if (func_print[(*lst)->attr[j]])
+					tmp = func_print[(*lst)->attr[j]](lst, tmp);
+				j++;
 			}
-			printf("\t1.0 rslt__%s__ \ttmp__%s__ conv-%c-\n", rslt, tmp, (*lst)->conv);
-			tmp = func_print[(*lst)->conv](lst, tmp);
-			printf("\t1.2 rslt__%s__ \ttmp__%s__\n", rslt, tmp);
+			tmp = handle_champs(lst, tmp);
+//			printf("\t1.2 rslt__%s__ \ttmp__%s__\n", rslt, tmp);
 			//La precision sera directement gere dans les conversions concernes.
 			i += ft_strlen(tmp);
 			rslt = putstr_in_str_if_diff(rslt, tmp, '%', i - ft_strlen(tmp));
-			printf("\t1.3 rslt__%s__ \ttmp__%s__\n", rslt, tmp);
+//			printf("\t1.3 rslt__%s__ \ttmp__%s__\n", rslt, tmp);
 			*lst = (*lst)->next;
 		}
 		i++;

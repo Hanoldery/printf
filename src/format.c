@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 16:28:53 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/09/26 16:15:20 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/10/05 19:08:26 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char		*prec_fmt(t_conv **lstconv, char *fmt)
 	i = 0;
 	fmt++;
 	if (*fmt == '*')
-		fmt= fmt + 1;
+		fmt = fmt + 1;
 	else
 		field_next = 0;
 	while (ft_strchr("0123456789", fmt[i]))
@@ -59,7 +59,8 @@ char		*prec_fmt(t_conv **lstconv, char *fmt)
 		(*lstconv)->precision = ft_atoi(ft_strsub(fmt, 0, i));
 	if (fmt[i] == '$')
 		fmt++;
-	(*lstconv)->prec_changed = 1;
+	if (!field_next)
+		(*lstconv)->prec_changed = 1;
 	return (fmt + i);
 }
 
@@ -72,6 +73,8 @@ char		*attr_fmt(t_conv **lstconv, char *fmt)
 	i = 0;
 	while (ft_strchr("#0-+ ", *fmt))
 	{
+		if (*fmt == ' ' && *(fmt + 1) == ' ')
+			fmt = fmt + 2;
 		if (*fmt == '0' && ft_strchr((*lstconv)->attr, '+'))
 			(*lstconv)->attr = 
 				putstr_in_str_if_diff((*lstconv)->attr, "0", 0, 0);
@@ -114,7 +117,7 @@ char		*conv_fmt(t_conv **lstconv, char *fmt)
 	char	*tmp;
 
 	tmp = NULL;
-	if (*fmt == 'd')
+	if (*fmt == 'd' || *fmt == 'D')
 	{
 		if ((tmp = ft_strchr((*lstconv)->attr, '0'))
 			&& (ft_strchr((*lstconv)->attr, '.')))
@@ -137,10 +140,17 @@ char		*conv_fmt(t_conv **lstconv, char *fmt)
 	}
 	else
 		(*lstconv)->conv = *fmt;
-	if (ft_strchr("ouxX", (*lstconv)->conv)
+	if (ft_strchr("ouUxX", (*lstconv)->conv)
 			&& (tmp = ft_strchr((*lstconv)->attr, '+')))
 		while (*tmp)
 			if ((*tmp = *(tmp + 1)))
 				tmp++;
+	/* Handle specifics */
+	if (ft_strchr("DUO", (*lstconv)->conv))
+	{
+		(*lstconv)->conv = (*lstconv)->conv + 32;
+		if (!(*(*lstconv)->modif == 'l'))
+			*(*lstconv)->modif = 'l';
+	}
 	return (NULL);
 }
