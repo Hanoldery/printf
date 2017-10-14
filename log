@@ -1,0 +1,39 @@
+rm -rf src/ft_printf.o src/analyze_conversion.o src/fill_result.o src/print_result.o src/format.o src/utils.o src/sort_attr.o src/handle_attr.o src/handle_cspn.o src/handle_dec.o src/handle_w.o src/handle_sci.o src/handle_null.o libft/ft_putchar.o libft/ft_putstr.o libft/ft_putchar_fd.o libft/ft_putstr_fd.o libft/ft_strmchr.o libft/ft_strmchr.o libft/ft_atoi.o libft/ft_strchr.o libft/ft_strsub.o libft/ft_bzero.o libft/ft_strlen.o libft/ft_strfind.o libft/ft_strdup.o libft/ft_strcpy.o libft/ft_strncpy.o libft/ft_strcat.o libft/ft_strncat.o libft/ft_strnew.o libft/ft_imaxtoa.o libft/ft_uimaxtoa.o libft/ft_strjoinfree.o libft/ft_imaxtoa_base.o libft/ft_uimaxtoa_base.o libft/ft_strdelinside.o src/main.o
+rm -rf libftprintf.a
+gcc -c  -Iinclude/  -Ilibft/ src/ft_printf.c -o src/ft_printf.o
+gcc -c  -Iinclude/  -Ilibft/ src/analyze_conversion.c -o src/analyze_conversion.o
+gcc -c  -Iinclude/  -Ilibft/ src/fill_result.c -o src/fill_result.o
+gcc -c  -Iinclude/  -Ilibft/ src/print_result.c -o src/print_result.o
+gcc -c  -Iinclude/  -Ilibft/ src/format.c -o src/format.o
+gcc -c  -Iinclude/  -Ilibft/ src/utils.c -o src/utils.o
+gcc -c  -Iinclude/  -Ilibft/ src/sort_attr.c -o src/sort_attr.o
+gcc -c  -Iinclude/  -Ilibft/ src/handle_attr.c -o src/handle_attr.o
+gcc -c  -Iinclude/  -Ilibft/ src/handle_cspn.c -o src/handle_cspn.o
+gcc -c  -Iinclude/  -Ilibft/ src/handle_dec.c -o src/handle_dec.o
+gcc -c  -Iinclude/  -Ilibft/ src/handle_w.c -o src/handle_w.o
+gcc -c  -Iinclude/  -Ilibft/ src/handle_sci.c -o src/handle_sci.o
+gcc -c  -Iinclude/  -Ilibft/ src/handle_null.c -o src/handle_null.o
+gcc -c  -Iinclude/  -Ilibft/ libft/ft_putchar.c -o libft/ft_putchar.o
+gcc -c  -Iinclude/  -Ilibft/ libft/ft_putstr.c -o libft/ft_putstr.o
+gcc -c  -Iinclude/  -Ilibft/ libft/ft_putchar_fd.c -o libft/ft_putchar_fd.o
+gcc -c  -Iinclude/  -Ilibft/ libft/ft_putstr_fd.c -o libft/ft_putstr_fd.o
+gcc -c  -Iinclude/  -Ilibft/ libft/ft_strmchr.c -o libft/ft_strmchr.o
+gcc -c  -Iinclude/  -Ilibft/ libft/ft_atoi.c -o libft/ft_atoi.o
+gcc -c  -Iinclude/  -Ilibft/ libft/ft_strchr.c -o libft/ft_strchr.o
+gcc -c  -Iinclude/  -Ilibft/ libft/ft_strsub.c -o libft/ft_strsub.o
+gcc -c  -Iinclude/  -Ilibft/ libft/ft_bzero.c -o libft/ft_bzero.o
+gcc -c  -Iinclude/  -Ilibft/ libft/ft_strlen.c -o libft/ft_strlen.o
+gcc -c  -Iinclude/  -Ilibft/ libft/ft_strfind.c -o libft/ft_strfind.o
+gcc -c  -Iinclude/  -Ilibft/ libft/ft_strdup.c -o libft/ft_strdup.o
+gcc -c  -Iinclude/  -Ilibft/ libft/ft_strcpy.c -o libft/ft_strcpy.o
+gcc -c  -Iinclude/  -Ilibft/ libft/ft_strncpy.c -o libft/ft_strncpy.o
+gcc -c  -Iinclude/  -Ilibft/ libft/ft_strcat.c -o libft/ft_strcat.o
+gcc -c  -Iinclude/  -Ilibft/ libft/ft_strncat.c -o libft/ft_strncat.o
+gcc -c  -Iinclude/  -Ilibft/ libft/ft_strnew.c -o libft/ft_strnew.o
+gcc -c  -Iinclude/  -Ilibft/ libft/ft_imaxtoa.c -o libft/ft_imaxtoa.o
+gcc -c  -Iinclude/  -Ilibft/ libft/ft_uimaxtoa.c -o libft/ft_uimaxtoa.o
+gcc -c  -Iinclude/  -Ilibft/ libft/ft_strjoinfree.c -o libft/ft_strjoinfree.o
+gcc -c  -Iinclude/  -Ilibft/ libft/ft_imaxtoa_base.c -o libft/ft_imaxtoa_base.o
+gcc -c  -Iinclude/  -Ilibft/ libft/ft_uimaxtoa_base.c -o libft/ft_uimaxtoa_base.o
+gcc -c  -Iinclude/  -Ilibft/ libft/ft_strdelinside.c -o libft/ft_strdelinside.o
+ar -rcs libftprintf.a src/ft_printf.o src/analyze_conversion.o src/fill_result.o src/print_result.o src/format.o src/utils.o src/sort_attr.o src/handle_attr.o src/handle_cspn.o src/handle_dec.o src/handle_w.o src/handle_sci.o src/handle_null.o libft/ft_putchar.o libft/ft_putstr.o libft/ft_putchar_fd.o libft/ft_putstr_fd.o libft/ft_strmchr.o libft/ft_atoi.o libft/ft_strchr.o libft/ft_strsub.o libft/ft_bzero.o libft/ft_strlen.o libft/ft_strfind.o libft/ft_strdup.o libft/ft_strcpy.o libft/ft_strncpy.o libft/ft_strcat.o libft/ft_strncat.o libft/ft_strnew.o libft/ft_imaxtoa.o libft/ft_uimaxtoa.o libft/ft_strjoinfree.o libft/ft_imaxtoa_base.o libft/ft_uimaxtoa_base.o libft/ft_strdelinside.o

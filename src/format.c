@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 16:28:53 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/10/05 19:08:26 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/10/14 18:55:40 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,7 @@ char		*attr_fmt(t_conv **lstconv, char *fmt)
 	while (ft_strchr("#0-+ ", *fmt))
 	{
 		if (*fmt == '0' && ft_strchr((*lstconv)->attr, '+'))
-			(*lstconv)->attr = 
-				putstr_in_str_if_diff((*lstconv)->attr, "0", 0, 0);
+			(*lstconv)->attr =ft_addinstr((*lstconv)->attr, "0", 0, 0);
 		else
 			(*lstconv)->attr[i++] = *fmt;
 		if (*fmt == '-')

@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/11 14:20:01 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/10/05 20:19:23 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/10/14 20:04:15 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,13 +109,13 @@ int		print_result(t_conv **lst, char *format)
 			//La precision sera directement gere dans les conversions concernes.
 			i += ft_strlen(tmp);
 			if (!handle_void(lst, &tmp, &rslt, i))
-				rslt = putstr_in_str_if_diff(rslt, tmp, '%', i - ft_strlen(tmp));
+				rslt = ft_addinstr(rslt, tmp, "%", i - ft_strlen(tmp));
 //			printf("\t1.3 rslt__%s__ \ttmp__%s__\n", rslt, tmp);
 			*lst = (*lst)->next;
 		}
-		//if (*(rslt + i) != '%')
+		if (*(rslt + i) != '%')
+			i++;
 		j = 0;
-		i++;
 	}
 	*lst = tmpc;
 	// Print la chaine et prie pour pas avoir d'emmerde de format...

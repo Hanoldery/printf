@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 14:45:24 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/10/05 19:10:27 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/10/14 19:10:02 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char		*fill_prec(char *fmt, int prec)
 {
 	while (ft_strlen(fmt) < prec)
-		fmt = putstr_in_str_if_diff(fmt, "0", 0, 0);
+		fmt = ft_addinstr(fmt, "0", 0, 0);
 	return (fmt);
 }
 
@@ -41,7 +41,7 @@ char		*handle_xX(t_conv **conv, char *fmt)
 		}
 	}
 	i = id_of_char_ifnextnot(fmt, '%', '%');
-	str = putstr_in_str_if_diff(fmt, str, '%', i);
+	str = ft_addinstr(fmt, str, "% ", i);
 	str = fill_prec(str, (*conv)->precision);
 	return (str);
 }
@@ -53,7 +53,7 @@ char		*handle_diu(t_conv **conv, char *fmt)
 
 	str = ft_imaxtoa((*conv)->data[0]);
 	i = id_of_char_ifnextnot(fmt, '%', '%');
-	str = putstr_in_str_if_diff(fmt, str, '%', i);
+	str = ft_addinstr(fmt, str, "%", i);
 	str = fill_prec(str, (*conv)->precision);
 	return (str);
 }
@@ -67,7 +67,7 @@ char		*handle_o(t_conv **conv, char *fmt)
 //	printf("CONV o\n");
 	str = ft_imaxtoa_base((*conv)->data[0], 8);
 	i = id_of_char_ifnextnot(fmt, '%', '%');
-	str = putstr_in_str_if_diff(fmt, str, '%', i);
+	str = ft_addinstr(fmt, str, "%", i);
 	str = fill_prec(str, (*conv)->precision);
 	return (str);
 }

@@ -28,4 +28,11 @@ void		sort_attr(char **attr)
 		ft_strdelinside(attr, i - 1, i + 1);
 		i++;
 	}
+	if (ft_strchr(*attr, '0'))
+	{
+		tmp = **attr;
+		i = ft_strfind(*attr, '0');
+		**attr = '0';
+		*(*attr + i) = tmp;
+	}
 }

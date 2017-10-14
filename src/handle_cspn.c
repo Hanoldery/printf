@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 14:50:28 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/10/05 17:12:10 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/10/14 18:52:36 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char		*handle_cC(t_conv **conv, char *fmt)
 		*rslt = (char)*(*conv)->sdata;
 	}
 //	printf("HERE\n");
-	fmt = putstr_in_str_if_diff(fmt, rslt, '%', 0);
+	fmt = ft_addinstr(fmt, rslt, "%", 0);
 	return (fmt);
 }
 
@@ -64,7 +64,7 @@ char		*handle_sS(t_conv **conv, char *fmt)
 		*(rslt + 1) = '\0';
 	}
 	else
-		rslt = putstr_in_str_if_diff(fmt, rslt, '%', 0);
+		rslt = ft_addinstr(fmt, rslt, "%", 0);
 	return (rslt);
 }
 

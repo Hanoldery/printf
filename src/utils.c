@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 12:25:16 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/10/05 19:07:14 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/10/14 20:05:54 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void		initiate_pointer(ft_fmt func)
 void	initiate_pointer_print(ft_fmt func)
 {
 	func['#'] = handle_hash;
-	func['0'] = handle_zero;
+//	func['0'] = handle_zero;
 	func['+'] = handle_space_plus;
 	func[' '] = handle_space_plus;
 	func['d'] = handle_diu;
@@ -91,41 +91,41 @@ void	initiate_pointer_print(ft_fmt func)
 	func['%'] = handle_percent;
 }
 
-char		*putstr_in_str_if_diff(char *dst, char *a, char c, int i)
+char		*ft_addinstr(char *dst, char *src, char *eq, int index)
 {
 	char	*rslt;
 
-	rslt = ft_strnew(ft_strlen(dst) + ft_strlen(a) + 1);
-	if (c && *(dst + i) == c && ft_strlen(a) == 1)
+	rslt = ft_strnew(ft_strlen(dst) + ft_strlen(src) + 1);
+/*	if (c && ft_strchr(c, *(dst + i)) && ft_strlen(a) == 1)
 	{
 		*(dst + i) = *a;
 //		printf("\t\tonly one %d %s %s\n", i, dst, a);
 		return (dst);
 	}
-	else if (c && *(dst + i) == c && ft_strlen(a) > 1)
+	else */
+	if (eq && ft_strchr(eq, *(dst + index)))
 	{
-//		printf("\t\tmultiple and match %d __%s__ -%s-\n", i, dst, a);
-		*(dst + i++) = *(a++);
+//		printf("\tADD eq\n");
+		while (*(dst + index) && *src && ft_strchr(eq, *(dst + index)))
+		{
+			*(dst + index++) = *(src++);
+			if (*(dst + index) == '%')
+				break;
+//			printf("\tADD eq DST%s SRC%s\n", dst, src);
+		}
 	}
 	if (dst && *dst)
 	{
-//		printf("\t\tmulitple not match\n");
-//		printf("\t\t%d.0 rslt __%s__\tdst_%s_\ta-%s-\n", i, rslt, dst, a);
-		rslt = ft_strncat(rslt, dst, i);
-//		printf("\t\t%d.1 rslt __%s__\tdst_%s_\ta-%s-\n", i, rslt, dst, a);
-		rslt = ft_strcat(rslt, a);
-//		printf("\t\t%d.2 rslt __%s__\tdst_%s_\ta-%s-\n", i, rslt, dst, a);
-		if (c && *(dst + ft_strlen(dst) - 1) == c)
-			rslt = ft_strncat(rslt, dst + i, ft_strlen(dst) - 1);
-		else
-			rslt = ft_strcat(rslt, dst + i);
-//		printf("\t\t%d.3 rslt __%s__\tdst_%s_\ta-%s-\n", i, rslt, dst, a);
+//		printf("\tADD rest DST_%s_  SRC_%s_  I%d -->", dst, src, index);
+		ft_strncat(rslt, dst, index);
+		ft_strcat(rslt, src);
+		ft_strcat(rslt, dst + index);
+//		printf("%s\n", rslt);
 		//TODO free(dst);
 	}
 	else 
 	{
-//		printf("\t\tdon't know %d %s %s\n", i, dst, a);
-		rslt = ft_strcat(rslt, a);
+		rslt = ft_strcat(rslt, src);
 	}
 	return (rslt);
 }

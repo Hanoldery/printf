@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/11 12:09:33 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/09/26 17:20:59 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/10/14 18:46:29 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ int					get_lst_conv(const char *format, t_conv **lstconv, va_list args);
 int					print_result(t_conv **lst, char *fmt);
 void				initiate_pointer(ft_fmt func);
 void				initiate_pointer_print(ft_fmt func);
-char				*putstr_in_str_if_diff(char *dst, char *a, char c, int i);
 int					id_of_char_ifnextnot(char *str, char c, char n);
 void				sort_attr(char **attr);
+char				*ft_addinstr(char *dst, char *a, char *c, int i);
 
 char				*field_fmt(t_conv **conv, char *fmt);
 char				*prec_fmt(t_conv **conv, char *fmt);
