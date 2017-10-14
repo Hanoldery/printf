@@ -21,12 +21,15 @@ t_conv		*create_lst_conv()
 	nlst->next = NULL;
 	nlst->pos = 0;
 	nlst->attr = ft_strnew(5);
-	nlst->data = 0;
 	nlst->data = (intmax_t *)malloc(sizeof(intmax_t));
+	*nlst->data = 0;
 	nlst->sdata = (wint_t *)malloc(sizeof(wint_t));
-	nlst->champs = 1;
-	nlst->precision = 1;
+	*nlst->sdata = 0;
+	nlst->udata = 0;
+	nlst->champs = 0;
+	nlst->precision = 0;
 	nlst->prec_changed = 0;
+	nlst->champs_changed = 0;
 	nlst->conv = (char)malloc(sizeof(char));
 	nlst->conv = '\0';
 	nlst->modif = ft_strnew(2);
@@ -127,7 +130,7 @@ char		*putstr_in_str_if_diff(char *dst, char *a, char c, int i)
 	return (rslt);
 }
 
-int			id_of_char(char *str, char c, char n)
+int			id_of_char_ifnextnot(char *str, char c, char n)
 {
 	int		i;
 

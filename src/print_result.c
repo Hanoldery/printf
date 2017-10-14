@@ -37,6 +37,30 @@ char	*delete_conv_inside(char *fmt)
 	return (rslt);
 }
 
+int		print_result2(t_conv **lst, char *rslt)
+{
+	int		i;
+
+	i = 0;
+//	printf("here myman rslt%d\n", ft_strlen(rslt));
+	while ((*lst)->next)
+	{
+//		printf("here myman2 %d %d\n", is_null(lst),  (*lst)->conv == 'c');
+		if (is_null(lst) && (*lst)->conv == 'c')
+		{
+			while (i < (*lst)->pos)
+				ft_putchar_fd(rslt[i++], 1);
+//			printf("About to write null _%s_\n", rslt + i);
+			i++;
+			ft_putchar_fd(0, 1);
+		}
+		*lst = (*lst)->next;
+	}
+	while (i < ft_strlen(rslt))
+		ft_putchar_fd(rslt[i++], 1);
+	return (i);
+}
+
 int		print_result(t_conv **lst, char *format)
 {
 	static ft_fmt	func_print;
@@ -45,10 +69,12 @@ int		print_result(t_conv **lst, char *format)
 	int				i;
 	int				j;
 	char			*fmt;
+	t_conv			*tmpc;
 
 	fmt = ft_strdup(format);
 	i = 0;
 	j = 0;
+	tmpc = *lst;
 	tmp = (char *)malloc(sizeof(char) * 2);
 	rslt = delete_conv_inside(fmt + i);
 //	printf("\t- Deleted %% inside\n");
@@ -62,9 +88,7 @@ int		print_result(t_conv **lst, char *format)
 			tmp = ft_strcpy(tmp, "%");
 //			printf("\t- Filled pointer function _%s_\n", rslt + i);
 //			printf("\t1.0 rslt__%s__ \ttmp__%s__ conv-%c-\n", rslt, tmp, (*lst)->conv);
-			if (handle_null(lst, &tmp))
-				continue;
-			else
+			if (!handle_null(lst, &tmp, i))
 			{
 				if (!(tmp = func_print[(*lst)->conv](lst, tmp)))
 				{
@@ -84,13 +108,16 @@ int		print_result(t_conv **lst, char *format)
 //			printf("\t1.2 rslt__%s__ \ttmp__%s__\n", rslt, tmp);
 			//La precision sera directement gere dans les conversions concernes.
 			i += ft_strlen(tmp);
-			rslt = putstr_in_str_if_diff(rslt, tmp, '%', i - ft_strlen(tmp));
+			if (!handle_void(lst, &tmp, &rslt, i))
+				rslt = putstr_in_str_if_diff(rslt, tmp, '%', i - ft_strlen(tmp));
 //			printf("\t1.3 rslt__%s__ \ttmp__%s__\n", rslt, tmp);
 			*lst = (*lst)->next;
 		}
+		//if (*(rslt + i) != '%')
+		j = 0;
 		i++;
 	}
-	ft_putstr_fd(rslt, 1);
+	*lst = tmpc;
 	// Print la chaine et prie pour pas avoir d'emmerde de format...
-	return (ft_strlen(rslt));
+	return (print_result2(lst, rslt));
 }

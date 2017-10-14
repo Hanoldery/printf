@@ -69,10 +69,10 @@ void		assign_nexts(t_conv **lst, va_list args, int j, int *i)
 	va_list cp;
 
 //	printf("ASSIGN 0.0\n");
-	if ((*lst)->champs == 0)
+	if (!(*lst)->champs_changed && (*lst)->champs == -1)
 		*i = ((*lst)->champs = va_arg(cp, unsigned int)) ? *++i: *i;
 //	printf("ASSIGN 1.0\n");
-	if (!(*lst)->prec_changed && (*lst)->precision == 0)
+	if (!(*lst)->prec_changed && (*lst)->precision == -1)
 		*i = ((*lst)->precision = va_arg(cp, unsigned int)) ? *++i: *i;
 //	printf("ASSIGN 2.0\n");
 	if ((*lst)->champs < 0)

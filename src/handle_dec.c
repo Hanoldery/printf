@@ -40,7 +40,7 @@ char		*handle_xX(t_conv **conv, char *fmt)
 			i++;
 		}
 	}
-	i = id_of_char(fmt, '%', '%');
+	i = id_of_char_ifnextnot(fmt, '%', '%');
 	str = putstr_in_str_if_diff(fmt, str, '%', i);
 	str = fill_prec(str, (*conv)->precision);
 	return (str);
@@ -52,7 +52,7 @@ char		*handle_diu(t_conv **conv, char *fmt)
 	char	*str;
 
 	str = ft_imaxtoa((*conv)->data[0]);
-	i = id_of_char(fmt, '%', '%');
+	i = id_of_char_ifnextnot(fmt, '%', '%');
 	str = putstr_in_str_if_diff(fmt, str, '%', i);
 	str = fill_prec(str, (*conv)->precision);
 	return (str);
@@ -66,7 +66,7 @@ char		*handle_o(t_conv **conv, char *fmt)
 	i = 0;
 //	printf("CONV o\n");
 	str = ft_imaxtoa_base((*conv)->data[0], 8);
-	i = id_of_char(fmt, '%', '%');
+	i = id_of_char_ifnextnot(fmt, '%', '%');
 	str = putstr_in_str_if_diff(fmt, str, '%', i);
 	str = fill_prec(str, (*conv)->precision);
 	return (str);

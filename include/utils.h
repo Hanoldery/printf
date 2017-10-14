@@ -30,6 +30,7 @@ typedef struct		s_conv
 	int				champs;
 	int				precision;
 	int				prec_changed;
+	int				champs_changed;
 	char			*modif;
 	char			conv;
 	struct s_conv	*next;
@@ -44,15 +45,20 @@ int					print_result(t_conv **lst, char *fmt);
 void				initiate_pointer(ft_fmt func);
 void				initiate_pointer_print(ft_fmt func);
 char				*putstr_in_str_if_diff(char *dst, char *a, char c, int i);
-int					id_of_char(char *str, char c, char n);
+int					id_of_char_ifnextnot(char *str, char c, char n);
+void				sort_attr(char **attr);
 
 char				*field_fmt(t_conv **conv, char *fmt);
 char				*prec_fmt(t_conv **conv, char *fmt);
 char				*attr_fmt(t_conv **conv, char *fmt);
 char				*length_fmt(t_conv **conv, char *fmt);
 char				*conv_fmt(t_conv **conv, char *fmt);
-
 char				*handle_champs(t_conv **conv, char *fmt);
+
+
+int					handle_null(t_conv **conv, char **fmt, int i);
+int					is_null(t_conv **conv);
+int					handle_void(t_conv **conv, char **tmp, char **rslt, int i);
 char				*handle_hash(t_conv **conv, char *fmt);
 char				*handle_zero(t_conv **conv, char *fmt);
 char				*handle_minus(t_conv **conv, char *fmt);

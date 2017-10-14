@@ -58,7 +58,8 @@ char		*handle_minus(t_conv **conv, char *fmt)
 	tmp = NULL;
 	rslt = ft_strnew(ft_strlen(fmt));
 	i = 0;
-	while (*(fmt + i) != '%' && *(fmt + i) != '0' && *(fmt + i) != '+')
+//	while (*(fmt + i) != '%' && *(fmt + i) != '0' && *(fmt + i) != '+')
+	while (*(fmt + i) == ' ')
 		i++;
 	tmp = ft_strnew(i);
 	if (ft_strchr((*conv)->attr, ' ') && *fmt == ' ')
@@ -78,9 +79,9 @@ char		*handle_space_plus(t_conv **conv, char *fmt)
 
 	i = 0;
 	rslt = NULL;
-	if(!(*((*conv)->data) && *((*conv)->data) > 0))
-		return (fmt);
-	while (!ft_strchr("0%", *(fmt + i)))
+//	if(!(*((*conv)->data) && *((*conv)->data) > 0))
+//		return (fmt);
+	while (*(fmt + i) == ' ')
 		i++;
 	//printf("\t\tSpace and plus %d _%s_\n", i, rslt);
 	if (i > 0)

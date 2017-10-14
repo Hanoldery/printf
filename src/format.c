@@ -25,15 +25,15 @@ char		*field_fmt(t_conv **lstconv, char *fmt)
 		fmt++;
 	}
 	while (ft_strchr("0123456789", fmt[i]))
-	{
 		i++;
-	}
-	if (i > 0 && field_next && *(fmt + i) == '$')
+	if (field_next && *(fmt + i) == '$')
 		(*lstconv)->champs = -1 * ft_atoi(ft_strsub(fmt, 0, i));
-	else if (!field_next && i > 0 && *(fmt + i) != '$')
+	else if (!field_next && i > 0)
 		(*lstconv)->champs = ft_atoi(ft_strsub(fmt, 0, i));
-	else if (!field_next && *(fmt + i) == '$')
-		(*lstconv)->pos = ft_atoi(ft_strsub(fmt, 0, i));
+	if (field_next && (*lstconv)->champs == 0)
+		(*lstconv)->champs = -1;
+	else
+		(*lstconv)->champs_changed = 1;
 	if (*(fmt + i) == '$')
 		fmt++;
 	return (fmt + i);
@@ -59,7 +59,9 @@ char		*prec_fmt(t_conv **lstconv, char *fmt)
 		(*lstconv)->precision = ft_atoi(ft_strsub(fmt, 0, i));
 	if (fmt[i] == '$')
 		fmt++;
-	if (!field_next)
+	if (field_next && (*lstconv)->precision == 0)
+		(*lstconv)->precision = -1;
+	else
 		(*lstconv)->prec_changed = 1;
 	return (fmt + i);
 }
@@ -73,8 +75,6 @@ char		*attr_fmt(t_conv **lstconv, char *fmt)
 	i = 0;
 	while (ft_strchr("#0-+ ", *fmt))
 	{
-		if (*fmt == ' ' && *(fmt + 1) == ' ')
-			fmt = fmt + 2;
 		if (*fmt == '0' && ft_strchr((*lstconv)->attr, '+'))
 			(*lstconv)->attr = 
 				putstr_in_str_if_diff((*lstconv)->attr, "0", 0, 0);
@@ -82,11 +82,6 @@ char		*attr_fmt(t_conv **lstconv, char *fmt)
 			(*lstconv)->attr[i++] = *fmt;
 		if (*fmt == '-')
 			if ((tmp = ft_strchr((*lstconv)->attr, '0')))
-				while (*tmp)
-					if ((*tmp = *(tmp + 1)))
-						tmp++;
-		if (*fmt == '+')
-			if ((tmp = ft_strchr((*lstconv)->attr, ' ')))
 				while (*tmp)
 					if ((*tmp = *(tmp + 1)))
 						tmp++;
@@ -125,6 +120,7 @@ char		*conv_fmt(t_conv **lstconv, char *fmt)
 				if ((*tmp = *(tmp + 1)))
 					tmp++;
 	}
+//	WTF is that ?!
 	if ((tmp = ft_strchr((*lstconv)->attr, '0'))
 			&& (ft_strchr((*lstconv)->attr, '-')))
 			while (*tmp)
@@ -152,5 +148,6 @@ char		*conv_fmt(t_conv **lstconv, char *fmt)
 		if (!(*(*lstconv)->modif == 'l'))
 			*(*lstconv)->modif = 'l';
 	}
+	sort_attr(&(*lstconv)->attr);
 	return (NULL);
 }

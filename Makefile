@@ -20,14 +20,17 @@ SRCS = 	src/ft_printf.c \
 		src/print_result.c \
 		src/format.c \
 		src/utils.c \
+		src/sort_attr.c \
 		src/handle_attr.c \
 		src/handle_cspn.c \
 		src/handle_dec.c \
 		src/handle_w.c \
-		src/handle_sci.c
+		src/handle_sci.c \
+		src/handle_null.c
 
 LIBFT_SRC = putchar \
 			putstr \
+			putchar_fd \
 			putstr_fd \
 			strmchr \
 			strmchr \
@@ -36,6 +39,7 @@ LIBFT_SRC = putchar \
 			strsub \
 			bzero \
 			strlen \
+			strfind \
 			strdup \
 			strcpy \
 			strncpy \

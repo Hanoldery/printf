@@ -20,8 +20,8 @@ char		*handle_cC(t_conv **conv, char *fmt)
 	str = 0;
 	rslt = NULL;
 //	printf("HERE _%d_ _%d_\n", !(*conv)->sdata, !(str = *(*conv)->sdata));
-	if (!(*conv)->sdata || !(str = *(*conv)->sdata))
-		return (NULL);
+//	if (!(*conv)->sdata || !(str = *(*conv)->sdata))
+//		return (NULL);
 //	printf("HERE\n");
 	if (((*conv)->conv == 'C' || ft_strchr((*conv)->modif, 'l'))
 			&& MB_CUR_MAX > 1)
@@ -47,8 +47,8 @@ char		*handle_sS(t_conv **conv, char *fmt)
 	max = (*conv)->precision;
 	str = (*conv)->sdata;
 	rslt = NULL;
-	if (!(*conv)->sdata)
-		return (NULL);
+//	if (!(*conv)->sdata)
+//		return (NULL);
 //	printf("Zero \n %c \n %s\n %d \n", (*conv)->conv, ft_strchr((*conv)->modif, 'l'), MB_CUR_MAX);
 	if (((*conv)->conv == 'C' || ft_strchr((*conv)->modif, 'l'))
 			&& MB_CUR_MAX > 1)
@@ -57,7 +57,14 @@ char		*handle_sS(t_conv **conv, char *fmt)
 		rslt = ft_strdup((char *)(*conv)->sdata);
 	if (ft_strlen(rslt) > (*conv)->precision && (*conv)->prec_changed)
 		*(rslt + (*conv)->precision ) = '\0';
-	fmt = putstr_in_str_if_diff(fmt, rslt, '%', 0);
+	if (ft_strlen(rslt) == 0)
+	{
+		rslt = ft_strnew(2);
+		*rslt = (char)0;
+		*(rslt + 1) = '\0';
+	}
+	else
+		rslt = putstr_in_str_if_diff(fmt, rslt, '%', 0);
 	return (rslt);
 }
 
