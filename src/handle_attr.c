@@ -113,7 +113,7 @@ char		*handle_space_plus(t_conv **conv, char *fmt)
 	{
 		rslt = ft_addinstr(fmt, "+", 0, i);
 	}
-	else if (ft_strchr((*conv)->attr, ' '))
+	else if (ft_strchr((*conv)->attr, ' ') && (*conv)->conv != '%')
 		rslt = ft_addinstr(fmt, " ", 0, i);
 	else 
 		return (fmt);

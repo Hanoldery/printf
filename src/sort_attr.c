@@ -18,7 +18,10 @@ void		sort_attr(char **attr)
 		j = i + 1;
 		while ((*attr)[j])
 			if (tmp == (*attr)[j++])
+			{
 				ft_strdelinside(attr, j - 2, j);
+				i = 0;
+			}
 		i++;
 	}
 	i = 0;

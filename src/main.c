@@ -23,46 +23,34 @@ int		main(void)
 	d = 21.21;
 
 
-	ft_printf("\n%   %", "test");
-	ft_printf("\nN_%#8x_", 42);
-	printf("\nR_%#8x_", 42);
-	printf("\n\n--\n");
-	ft_printf("\nN_%#08x_", 42);
-	printf("\nR_%#08x_", 42);
-	printf("\n\n--\n");
-	ft_printf("\nN_%#-08x_", 42);
-	printf("\nR_%#-08x_", 42);
-	printf("\n\n--\n");
-	ft_printf("\nN_%jx_", -4294967296);
-	printf("\nR_%jx_", -4294967296);
-	printf("\n\n--\n");
-	ft_printf("\nN_%jx_", -4294967297);
-	printf("\nR_%jx_", -4294967297);
-	printf("\n\n--\n");
-	ft_printf("\nN_%llx_", 9223372036854775807);
-	printf("\nR_%llx_", 9223372036854775807);
-	printf("\n\n--\n");
-	ft_printf("\nN_%llx_", 9223372036854775808);
-	printf("\nR_%llx_", 9223372036854775808);
-	printf("\n\n--\n");
-	ft_printf("\nN_%#llx_", 9223372036854775807);
-	printf("\nR_%#llx_", 9223372036854775807);
-	printf("\n\n--\n");
-	ft_printf("\nN_%s_", "this is a string");
-	printf("\nR_%s_", "this is a string");
-	printf("\n\n--\n");
-	ft_printf("\nN_this is a %s_", "string");
-	printf("\nR_this is a %s_", "string");
-	printf("\n\n--\n");
-	ft_printf("\nN_%s%s%s%s%s_", "this", "is", "a", "multi", "string");
-	printf("\nR_%s%s%s%s%s_", "this", "is", "a", "multi", "string");
+	ft_printf("\nN_%   %_", "test");
+	printf("\nR_%   %_", "test");
+	printf("\n\n----\n");
+	ft_printf("\nN_%s_", NULL);
+	printf("\nR_%s_", NULL);
+	printf("\n\n----\n");
+	ft_printf("\nN_%s %s_", NULL, 0);
+	printf("\nR_%s %s_", NULL,  0);
+	printf("\n\n----\n");
+	ft_printf("\nN_ %c_", 0);
+	printf("\nR_ %c_", 0);
+	printf("\n\n----\n");
+	ft_printf("\nN_%2c_", 0);
+	printf("\nR_%2c_", 0);
+	printf("\n\n----\n");
+	ft_printf("\nN null _%c_ and text", 0);
+	printf("\nR null _%c_ and text", 0);
+	printf("\n\n----\n");
+	ft_printf("\nN_% c_", 0);
+	printf("\nR_% c_", 0);
+	printf("\n\n----\n");
+
 //	ft_printf("\n%s%s%s%s%s", "this", "is", "a", "multi", "string");
 //	ft_printf("\n@moulitest: %s", NULL);
 //	ft_printf("\n%s %s", NULL, 0);
 //	ft_printf("\n%2c", 0);
 
 
-	printf("\n%   %", "test");
 //	printf("\n%s%s%s%s%s", "this", "is", "a", "multi", "string");
 //	printf("\n@moulitest: %s", NULL);
 //	printf("\n%s %s", NULL, 0);

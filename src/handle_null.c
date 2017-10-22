@@ -22,6 +22,8 @@ int			handle_void(t_conv **conv, char **tmp, char **rslt, int i)
 
 int			is_null(t_conv **conv)
 {
+	if (!(*conv)->data || !(*conv)->sdata)
+		return (1);
 	if (!*(*conv)->data && !*(*conv)->sdata && !(*conv)->udata && (*conv)->conv != '%')
 		return (1);
 	return (0);
@@ -32,13 +34,21 @@ int			handle_null(t_conv **conv, char **tmp, int j)
 	int		i;
 
 	i = 0;
-	if (is_null(conv) && (*conv)->prec_changed && (*conv)->precision == 0 && (!((*conv)->conv == 'o') || !ft_strchr((*conv)->attr, '#')))
+	if (is_null(conv))
 	{
+		if ((*conv)->conv == 'o' || ft_strchr((*conv)->attr, '#'))
+			return (0);
+		if (ft_strchr("sS", (*conv)->conv))
+		{
+			*tmp = ft_strdup("(null)");
+			return (1);
+		}
 		if ((*conv)->conv == 'c')
-			i++;
+			i = ((*conv)->champs_changed) ? i + (*conv)->champs + 1 : i + 1;
 		(*conv)->pos = j;
-		while (*(*tmp + i))
-			*(*tmp + i++) = '\0';
+//		if ((*conv)->prec_changed && (*conv)->precision == 0)
+			while (*(*tmp + i))
+				*(*tmp + i++) = '\0';
 		return (1);
 	}
 	return (0);
