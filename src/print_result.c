@@ -32,6 +32,7 @@ char	*delete_conv_inside(char *fmt)
 			end++;
 		end++;
 		ft_strdelinside(&rslt, begin, end);
+		printf("WHAAAAT %s %d%c %d%c\n", rslt, begin, *(rslt + begin), end,  *(rslt + end));
 		begin++;
 	}
 	return (rslt);
@@ -50,7 +51,7 @@ int		print_result2(t_conv **lst, char *rslt)
 		{
 			while (i < (*lst)->pos)
 				ft_putchar_fd(rslt[i++], 1);
-//			printf("About to write null _%s_\n", rslt + i);
+			printf("About to write null %d.%s.%s.\n", i, rslt + i , rslt);
 			i++;
 			ft_putchar_fd(0, 1);
 		}
@@ -87,7 +88,7 @@ int		print_result(t_conv **lst, char *format)
 		{
 			tmp = ft_strcpy(tmp, "%");
 //			printf("\t- Filled pointer function _%s_\n", rslt + i);
-//			printf("\t1.0 rslt__%s__ \ttmp__%s__ conv-%c-\n", rslt, tmp, (*lst)->conv);
+			printf("\t1.0 rslt%d__%s__ \ttmp__%s__ conv-%c-\n", i, rslt, tmp, (*lst)->conv);
 			if (!handle_null(lst, &tmp, i))
 			{
 				if (!(tmp = func_print[(*lst)->conv](lst, tmp)))
@@ -105,12 +106,12 @@ int		print_result(t_conv **lst, char *format)
 				j++;
 			}
 			tmp = handle_champs(lst, tmp);
-//			printf("\t1.2 rslt__%s__ \ttmp__%s__\n", rslt, tmp);
+			printf("\t1.2 rslt__%s__ \ttmp__%s__\n", rslt, tmp);
 			//La precision sera directement gere dans les conversions concernes.
 			i += ft_strlen(tmp);
 			if (!handle_void(lst, &tmp, &rslt, i))
 				rslt = ft_addinstr(rslt, tmp, "%", i - ft_strlen(tmp));
-//			printf("\t1.3 rslt__%s__ \ttmp__%s__\n", rslt, tmp);
+			printf("\t1.3 rslt__%s__ \ttmp__%s__\n", rslt, tmp);
 			*lst = (*lst)->next;
 		}
 		if (*(rslt + i) != '%')
