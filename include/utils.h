@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/11 12:09:33 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/10/14 18:46:29 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/11/16 18:07:00 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdarg.h>
+# include <locale.h>
 # include "../libft/libft.h"
 
 typedef struct		s_conv
@@ -33,6 +34,7 @@ typedef struct		s_conv
 	int				champs_changed;
 	char			*modif;
 	char			conv;
+	int				valid;
 	struct s_conv	*next;
 }					t_conv;
 
@@ -41,11 +43,18 @@ typedef char *(*ft_fmt[123])(t_conv **conv, char *fmt);
 void				analyze_conversion(const char *format, va_list args, t_conv **lst);
 t_conv				*create_lst_conv();
 int					get_lst_conv(const char *format, t_conv **lstconv, va_list args);
+
+void				assign_arg(t_conv **conv, va_list args);
+void				assign_arg_unsigned(t_conv **conv, va_list args);
+void				assign_arg_signed(t_conv **conv, va_list args);
+void				assign_arg_special(t_conv **conv, va_list args);
+void				assign_next(t_conv **conv, va_list args, int j, int *i);
+
 int					print_result(t_conv **lst, char *fmt);
 void				initiate_pointer(ft_fmt func);
 void				initiate_pointer_print(ft_fmt func);
 int					id_of_char_ifnextnot(char *str, char c, char n);
-void				sort_attr(char **attr);
+void				sort_attr(t_conv **conv, char **attr);
 char				*ft_addinstr(char *dst, char *a, char *c, int i);
 
 char				*field_fmt(t_conv **conv, char *fmt);
@@ -57,14 +66,13 @@ char				*handle_champs(t_conv **conv, char *fmt);
 
 
 int					handle_null(t_conv **conv, char **fmt, int i);
+void				handle_invalid_conv(t_conv **c, char **r, int *b, int *e);
 int					is_null(t_conv **conv);
 int					handle_void(t_conv **conv, char **tmp, char **rslt, int i);
 char				*handle_hash(t_conv **conv, char *fmt);
-char				*handle_zero(t_conv **conv, char *fmt);
-char				*handle_minus(t_conv **conv, char *fmt);
 char				*handle_space_plus(t_conv **conv, char *fmt);
-char				*handle_diu(t_conv **conv, char *fmt);
-char				*handle_o(t_conv **conv, char *fmt);
+char				*handle_di(t_conv **conv, char *fmt);
+char				*handle_ou(t_conv **conv, char *fmt);
 char				*handle_xX(t_conv **conv, char *fmt);
 char				*handle_eE(t_conv **conv, char *fmt);
 char				*handle_fF(t_conv **conv, char *fmt);
@@ -72,12 +80,11 @@ char				*handle_gG(t_conv **conv, char *fmt);
 char				*handle_aA(t_conv **conv, char *fmt);
 char				*handle_cC(t_conv **conv, char *fmt);
 char				*handle_sS(t_conv **conv, char *fmt);
-char				*handle_p(t_conv **conv, char *fmt);
 char				*handle_n(t_conv **conv, char *fmt);
 char				*handle_percent(t_conv **conv, char *fmt);
 
 int					w_size(wchar_t wchar);
 char				*wchar_to_str(wchar_t wchar);
-char				*wcharstr_to_str(wchar_t *swchar);
+char				*wcharstr_to_str(wchar_t *swchar, t_conv **conv);
 
 #endif

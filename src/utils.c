@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 12:25:16 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/10/14 20:05:54 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/11/16 14:46:25 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_conv		*create_lst_conv()
 	nlst->precision = 0;
 	nlst->prec_changed = 0;
 	nlst->champs_changed = 0;
+	nlst->valid = 1;
 	nlst->conv = (char)malloc(sizeof(char));
 	nlst->conv = '\0';
 	nlst->modif = ft_strnew(2);
@@ -66,12 +67,12 @@ void		initiate_pointer(ft_fmt func)
 void	initiate_pointer_print(ft_fmt func)
 {
 	func['#'] = handle_hash;
-//	func['0'] = handle_zero;
 	func['+'] = handle_space_plus;
 	func[' '] = handle_space_plus;
-	func['d'] = handle_diu;
-	func['o'] = handle_o;
-	func['u'] = handle_diu;
+	func['o'] = handle_ou;
+	func['d'] = handle_di;
+	func['i'] = handle_di;
+	func['u'] = handle_ou;
 	func['x'] = handle_xX;
 	func['X'] = handle_xX;
 	func['e'] = handle_eE;
@@ -86,7 +87,7 @@ void	initiate_pointer_print(ft_fmt func)
 	func['C'] = handle_cC;
 	func['s'] = handle_sS;
 	func['S'] = handle_sS;
-	func['p'] = handle_p;
+	func['p'] = handle_xX;
 	func['n'] = handle_n;
 	func['%'] = handle_percent;
 }
@@ -96,37 +97,24 @@ char		*ft_addinstr(char *dst, char *src, char *eq, int index)
 	char	*rslt;
 
 	rslt = ft_strnew(ft_strlen(dst) + ft_strlen(src) + 1);
-/*	if (c && ft_strchr(c, *(dst + i)) && ft_strlen(a) == 1)
-	{
-		*(dst + i) = *a;
-//		printf("\t\tonly one %d %s %s\n", i, dst, a);
-		return (dst);
-	}
-	else */
 	if (eq && ft_strchr(eq, *(dst + index)))
 	{
-//		printf("\tADD eq\n");
 		while (*(dst + index) && *src && ft_strchr(eq, *(dst + index)))
 		{
 			*(dst + index++) = *(src++);
 			if (*(dst + index) == '%')
 				break;
-//			printf("\tADD eq DST%s SRC%s\n", dst, src);
 		}
 	}
 	if (dst && *dst)
 	{
-//		printf("\tADD rest DST_%s_  SRC_%s_  I%d -->", dst, src, index);
 		ft_strncat(rslt, dst, index);
 		ft_strcat(rslt, src);
 		ft_strcat(rslt, dst + index);
-//		printf("%s\n", rslt);
 		//TODO free(dst);
 	}
 	else 
-	{
 		rslt = ft_strcat(rslt, src);
-	}
 	return (rslt);
 }
 

@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/11 12:11:42 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/10/05 19:02:44 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/11/16 14:56:22 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ int		ft_printf(const char *format,...){
 	t_conv	*lstconv;
 
 	lstconv = NULL;
-//	printf("-----------------\n");
 	lstconv = create_lst_conv();
 	va_start(args, format);
+//	printf("\t\t0.0 .%s.\n", format);
 	analyze_conversion(format, args, &lstconv);
-	//	printf("1.0 \n");
+//	printf("\t\t1.0 .%s.\n", format);
 	ret = print_result(&lstconv, (char *)format);
-//	printf("\n2.0 \n");
+//	printf("\t\t2.0 .%s.\n", format);
 	va_end(args);
 	return (ret);
 }

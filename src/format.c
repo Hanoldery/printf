@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 16:28:53 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/10/14 18:55:40 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/11/16 18:31:26 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char		*attr_fmt(t_conv **lstconv, char *fmt)
 	while (ft_strchr("#0-+ ", *fmt))
 	{
 		if (*fmt == '0' && ft_strchr((*lstconv)->attr, '+'))
-			(*lstconv)->attr =ft_addinstr((*lstconv)->attr, "0", 0, 0);
+			(*lstconv)->attr = ft_addinstr((*lstconv)->attr, "0", 0, 0);
 		else
 			(*lstconv)->attr[i++] = *fmt;
 		if (*fmt == '-')
@@ -129,7 +129,7 @@ char		*conv_fmt(t_conv **lstconv, char *fmt)
 		(*lstconv)->conv = 'd';
 	else if (*fmt == 'p')
 	{
-		(*lstconv)->conv = 'x';
+		(*lstconv)->conv = *fmt;
 		if (!ft_strchr((*lstconv)->attr, '#'))
 			(*lstconv)->attr[ft_strlen((*lstconv)->attr)] = '#';
 	}
@@ -141,12 +141,11 @@ char		*conv_fmt(t_conv **lstconv, char *fmt)
 			if ((*tmp = *(tmp + 1)))
 				tmp++;
 	/* Handle specifics */
-	if (ft_strchr("DUO", (*lstconv)->conv))
+	if (ft_strchr("DUOSC", (*lstconv)->conv))
 	{
 		(*lstconv)->conv = (*lstconv)->conv + 32;
-		if (!(*(*lstconv)->modif == 'l'))
-			*(*lstconv)->modif = 'l';
+		(*lstconv)->modif = ft_addinstr((*lstconv)->modif, "l", 0, 0);
 	}
-	sort_attr(&(*lstconv)->attr);
+	sort_attr(lstconv, &(*lstconv)->attr);
 	return (NULL);
 }

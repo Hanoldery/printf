@@ -6,58 +6,80 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/11 14:52:52 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/10/14 19:03:00 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/11/16 18:53:40 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 #include "ftprintf.h"
-
+#include <limits.h>
 int		main(void)
 {
 	char	*str;
-	int		i;
+	uintmax_t		i;
 	double	d;
 
 	i = 0;
 	d = 21.21;
 
-
-	ft_printf("\nN_%   %_", "test");
-	printf("\nR_%   %_", "test");
-	printf("\n\n----\n");
-	ft_printf("\nN_%s_", NULL);
-	printf("\nR_%s_", NULL);
-	printf("\n\n----\n");
-	ft_printf("\nN_%s %s_", NULL, 0);
-	printf("\nR_%s %s_", NULL,  0);
-	printf("\n\n----\n");
-	ft_printf("\nN_ %c_", 0);
-	printf("\nR_ %c_", 0);
-	printf("\n\n----\n");
-	ft_printf("\nN_%2c_", 0);
-	printf("\nR_%2c_", 0);
-	printf("\n\n----\n");
-	ft_printf("\nN null _%c_ and text", 0);
-	printf("\nR null _%c_ and text", 0);
-	printf("\n\n----\n");
-	ft_printf("\nN_% c_", 0);
-	printf("\nR_% c_", 0);
+	setlocale(LC_ALL, "");
+/*
+	ft_printf("N_%");
+	printf("\nR_%");
 	printf("\n\n----\n");
 
-//	ft_printf("\n%s%s%s%s%s", "this", "is", "a", "multi", "string");
-//	ft_printf("\n@moulitest: %s", NULL);
-//	ft_printf("\n%s %s", NULL, 0);
-//	ft_printf("\n%2c", 0);
+	printf("\n\n----\n");
+
+	ft_printf("N_%hD, %hD", 0, USHRT_MAX);
+	printf("\nR_%hD, %hD", 0, USHRT_MAX);
+	printf("\n\n----\n");
+
+	ft_printf("N_%hhO, %hhO", 0, UCHAR_MAX + 42);
+	printf("\nR_%hhO, %hhO", 0, UCHAR_MAX + 42);
+	printf("\n\n----\n");
+
+	ft_printf("N_{%05.%}", 0);
+	printf("\nR_{%05.%}", 0);
+	printf("\n\n----\n");
+
+	ft_printf("N_{% o|%+o", 42, 42);
+	printf("\nR_{% o|%+o", 42, 42);
+	printf("\n\n----\n");
+
+	ft_printf("N_{% x|%+x", 42, 42);
+	printf("\nR_{% x|%+x", 42, 42);
+	printf("\n\n----\n");*/
+	char c;
+	c = 'o';
+	printf("\nR_%s%d%p%%%S%D%i%o%O%u%U%x%X%c%C","bonjour", 42, &c, L"暖炉", LONG_MAX, 42, 42, 42, 100000, ULONG_MAX, 42, 42, 'c', L'플');
+	ft_printf("N_%s%d%p%%%S%D%i%o%O%u%U%x%X%c%C","bonjour", 42, &c, L"暖炉", LONG_MAX, 42, 42, 42, 100000, ULONG_MAX, 42, 42, 'c', L'플');
+	printf("\n\n----\n");
+/*
+	ft_printf("N_{%10R}");
+	printf("\nR_{%10R}");
+	printf("\n\n----\n");
+
+	ft_printf("N_% Zoooo");
+	printf("\nR_% Zoooo");
+	printf("\n\n----\n");
+*/
 
 
-//	printf("\n%s%s%s%s%s", "this", "is", "a", "multi", "string");
-//	printf("\n@moulitest: %s", NULL);
-//	printf("\n%s %s", NULL, 0);
-//	printf("\n%2c", 0);
 
 
-/*		ft_printf("%hd", 32768);
+	//	ft_printf("\n%s%s%s%s%s", "this", "is", "a", "multi", "string");
+	//	ft_printf("\n@moulitest: %s", NULL);
+	//	ft_printf("\n%s %s", NULL, 0);
+	//	ft_printf("\n%2c", 0);
+
+
+	//	printf("\n%s%s%s%s%s", "this", "is", "a", "multi", "string");
+	//	printf("\n@moulitest: %s", NULL);
+	//	printf("\n%s %s", NULL, 0);
+	//	printf("\n%2c", 0);
+
+
+	/*		ft_printf("%hd", 32768);
 			ft_printf("%hhd", 128);
 			ft_printf("%hhd", -129);
 			ft_printf("%zd", 4294967295);

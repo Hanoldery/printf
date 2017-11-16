@@ -6,7 +6,7 @@
 #    By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/08/11 13:08:28 by pgerbaud          #+#    #+#              #
-#    Updated: 2017/10/05 18:12:46 by pgerbaud         ###   ########.fr        #
+#    Updated: 2017/10/22 18:33:45 by pgerbaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ INCLUDE_PATH = include/ libft/
 
 SRCS = 	src/ft_printf.c \
 		src/analyze_conversion.c \
+		src/analyze_assign.c \
 		src/fill_result.c \
 		src/print_result.c \
 		src/format.c \

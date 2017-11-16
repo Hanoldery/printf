@@ -6,21 +6,19 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/11 14:20:01 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/10/14 20:04:15 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/11/16 17:33:17 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-char	*delete_conv_inside(char *fmt)
+char	*delete_conv_inside(char *rslt, t_conv **lst)
 {
-	char	*rslt;
 	int		begin;
 	int		end;
 
 	begin = 0;
 	end = 0;
-	rslt = fmt;
 	while (*(rslt + begin))
 	{
 		while (*(rslt + begin) && *(rslt + begin) != '%')
@@ -28,11 +26,15 @@ char	*delete_conv_inside(char *fmt)
 		if (!*(rslt + begin))
 			return (rslt);
 		end = begin + 1;
-		while (!ft_strchr("diouxXeEfFgGaAcCsSpn%", *(rslt + end)))
+		while (!ft_strchr("diouxXeEfFgGaAcCsSpn%", *(rslt + end))
+				&& ft_strchr(" -+0123456789#*$.hjzlL", *(rslt + end)))
 			end++;
-		end++;
+		if (ft_strchr(" -+0123456789#*$.hjzlLdDioOuUxXeEfFgGaAcCsSpn%", *(rslt + end))
+				&& *(rslt + end))
+			end++;
+		else
+			handle_invalid_conv(lst, &rslt, &begin, &end);
 		ft_strdelinside(&rslt, begin, end);
-		printf("WHAAAAT %s %d%c %d%c\n", rslt, begin, *(rslt + begin), end,  *(rslt + end));
 		begin++;
 	}
 	return (rslt);
@@ -43,15 +45,12 @@ int		print_result2(t_conv **lst, char *rslt)
 	int		i;
 
 	i = 0;
-//	printf("here myman rslt%d\n", ft_strlen(rslt));
 	while ((*lst)->next)
 	{
-//		printf("here myman2 %d %d\n", is_null(lst),  (*lst)->conv == 'c');
 		if (is_null(lst) && (*lst)->conv == 'c')
 		{
 			while (i < (*lst)->pos)
 				ft_putchar_fd(rslt[i++], 1);
-			printf("About to write null %d.%s.%s.\n", i, rslt + i , rslt);
 			i++;
 			ft_putchar_fd(0, 1);
 		}
@@ -77,41 +76,42 @@ int		print_result(t_conv **lst, char *format)
 	j = 0;
 	tmpc = *lst;
 	tmp = (char *)malloc(sizeof(char) * 2);
-	rslt = delete_conv_inside(fmt + i);
-//	printf("\t- Deleted %% inside\n");
+//	printf("\t\tPRINT_RESULT %c\n", (*lst)->conv);
+	rslt = delete_conv_inside(fmt + i, lst);
 	initiate_pointer_print(func_print);
-//	printf("\t- Filled pointer function\n");
-//	printf("\t- Before : _%s_ with attr : '%s'\n", (rslt + i), (*lst)->attr);
 	while (*(rslt + i))
 	{
 		if (*(rslt + i) == '%')
 		{
 			tmp = ft_strcpy(tmp, "%");
-//			printf("\t- Filled pointer function _%s_\n", rslt + i);
-			printf("\t1.0 rslt%d__%s__ \ttmp__%s__ conv-%c-\n", i, rslt, tmp, (*lst)->conv);
+			if (!(*lst)->valid && (rslt + i + 2))
+			{
+				*tmp = *(rslt + i + 1);
+				ft_strdelinside(&rslt, i, i + 2);
+			}
+//			printf("\t\tPRINT_RESULT.1 %c \n", (*lst)->conv);
 			if (!handle_null(lst, &tmp, i))
 			{
-				if (!(tmp = func_print[(*lst)->conv](lst, tmp)))
+//				printf("\t\tPRINT_RESULT.1.1 tmp.%s. rslt.%s.\n", tmp, rslt);
+				if ((*lst)->conv && !(tmp = func_print[(*lst)->conv](lst, tmp)))
 				{
 					*lst = (*lst)->next;
 					i++;
 					continue;
 				}
 			}
+//			printf("\t\tPRINT_RESULT.2 tmp.%s. rslt.%s.\n", tmp, rslt);
 			while ((*lst)->attr[j])
 			{
-//				printf("\t- Making attr : '%c' j%d\n", (*lst)->attr[j], j);
 				if (func_print[(*lst)->attr[j]])
 					tmp = func_print[(*lst)->attr[j]](lst, tmp);
 				j++;
 			}
 			tmp = handle_champs(lst, tmp);
-			printf("\t1.2 rslt__%s__ \ttmp__%s__\n", rslt, tmp);
-			//La precision sera directement gere dans les conversions concernes.
 			i += ft_strlen(tmp);
 			if (!handle_void(lst, &tmp, &rslt, i))
 				rslt = ft_addinstr(rslt, tmp, "%", i - ft_strlen(tmp));
-			printf("\t1.3 rslt__%s__ \ttmp__%s__\n", rslt, tmp);
+//			printf("\t\tPRINT_RESULT.3 tmp.%s. rslt.%s.\n", tmp, rslt);
 			*lst = (*lst)->next;
 		}
 		if (*(rslt + i) != '%')
@@ -119,6 +119,5 @@ int		print_result(t_conv **lst, char *format)
 		j = 0;
 	}
 	*lst = tmpc;
-	// Print la chaine et prie pour pas avoir d'emmerde de format...
 	return (print_result2(lst, rslt));
 }
