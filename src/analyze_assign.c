@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/22 18:19:59 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/11/16 15:28:23 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/11/21 16:45:40 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ void		assign_arg_signed(t_conv **lstconv, va_list args)
 	else if ((*lstconv)->modif[0] == 'z')
 		(*lstconv)->data[0] = va_arg(args, size_t);
 	else if ((*lstconv)->modif[0] == 'l')
-		(*lstconv)->data[0] = (long) va_arg(args, long);
+		(*lstconv)->data[0] = (long)va_arg(args, long);
 	else if ((*lstconv)->modif[0] == 'l' && (*lstconv)->modif[1] == 'l')
-		(*lstconv)->data[0] = (long long) va_arg(args, long long);
+		(*lstconv)->data[0] = (long long)va_arg(args, long long);
 	else if ((*lstconv)->modif[0] == 'j')
-		(*lstconv)->data[0] = (intmax_t) va_arg(args, intmax_t);
+		(*lstconv)->data[0] = (intmax_t)va_arg(args, intmax_t);
 	else
 		(*lstconv)->data[0] = va_arg(args, int);
 }
@@ -69,14 +69,17 @@ void		assign_arg_special(t_conv **lstconv, va_list args)
 		(*lstconv)->udata = (uintmax_t)va_arg(args, void *);
 }
 
+/*
+**	if (!(*lst)->champs_changed && (*lst)->champs == -1)
+**		*i = ((*lst)->champs = va_arg(cp, unsigned int)) ? *++i : *i;
+**	if (!(*lst)->prec_changed && (*lst)->precision == -1)
+**		*i = ((*lst)->precision = va_arg(cp, unsigned int)) ? *++i : *i;
+*/
+
 void		assign_next(t_conv **lst, va_list args, int j, int *i)
 {
 	va_list cp;
 
-	if (!(*lst)->champs_changed && (*lst)->champs == -1)
-		*i = ((*lst)->champs = va_arg(cp, unsigned int)) ? *++i: *i;
-	if (!(*lst)->prec_changed && (*lst)->precision == -1)
-		*i = ((*lst)->precision = va_arg(cp, unsigned int)) ? *++i: *i;
 	if ((*lst)->champs < 0)
 	{
 		va_copy(cp, args);

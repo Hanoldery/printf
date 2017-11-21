@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 16:28:53 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/11/16 18:31:26 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/11/21 12:50:46 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,51 +101,35 @@ char		*length_fmt(t_conv **lstconv, char *fmt)
 		(*lstconv)->modif = "ll";
 		fmt++;
 	}
-	else 
+	else
 		*(*lstconv)->modif = *fmt;
 	return (fmt + 1);
 }
 
-char		*conv_fmt(t_conv **lstconv, char *fmt)
+char		*conv_fmt(t_conv **lst, char *fmt)
 {
-	char	*tmp;
-
-	tmp = NULL;
 	if (*fmt == 'd' || *fmt == 'D')
-	{
-		if ((tmp = ft_strchr((*lstconv)->attr, '0'))
-			&& (ft_strchr((*lstconv)->attr, '.')))
-			while (*tmp)
-				if ((*tmp = *(tmp + 1)))
-					tmp++;
-	}
-//	WTF is that ?!
-	if ((tmp = ft_strchr((*lstconv)->attr, '0'))
-			&& (ft_strchr((*lstconv)->attr, '-')))
-			while (*tmp)
-				if ((*tmp = *(tmp + 1)))
-					tmp++;
+		if (ft_strchr((*lst)->attr, '0') && (ft_strchr((*lst)->attr, '.')))
+			ft_strdelinside(&(*lst)->attr, ft_strfind((*lst)->attr, '+') - 1,
+				ft_strfind((*lst)->attr, '+') + 1);
 	if (*fmt == 'i')
-		(*lstconv)->conv = 'd';
+		(*lst)->conv = 'd';
 	else if (*fmt == 'p')
 	{
-		(*lstconv)->conv = *fmt;
-		if (!ft_strchr((*lstconv)->attr, '#'))
-			(*lstconv)->attr[ft_strlen((*lstconv)->attr)] = '#';
+		(*lst)->conv = *fmt;
+		if (!ft_strchr((*lst)->attr, '#'))
+			(*lst)->attr[ft_strlen((*lst)->attr)] = '#';
 	}
 	else
-		(*lstconv)->conv = *fmt;
-	if (ft_strchr("ouUxX", (*lstconv)->conv)
-			&& (tmp = ft_strchr((*lstconv)->attr, '+')))
-		while (*tmp)
-			if ((*tmp = *(tmp + 1)))
-				tmp++;
-	/* Handle specifics */
-	if (ft_strchr("DUOSC", (*lstconv)->conv))
+		(*lst)->conv = *fmt;
+	if (ft_strchr("ouUxX", (*lst)->conv) && ft_strchr((*lst)->attr, '+'))
+		ft_strdelinside(&(*lst)->attr, ft_strfind((*lst)->attr, '+') - 1,
+				ft_strfind((*lst)->attr, '+') + 1);
+	if (ft_strchr("DUOSC", (*lst)->conv))
 	{
-		(*lstconv)->conv = (*lstconv)->conv + 32;
-		(*lstconv)->modif = ft_addinstr((*lstconv)->modif, "l", 0, 0);
+		(*lst)->conv = (*lst)->conv + 32;
+		(*lst)->modif = ft_addinstr((*lst)->modif, "l", 0, 0);
 	}
-	sort_attr(lstconv, &(*lstconv)->attr);
+	sort_attr(lst, &(*lst)->attr);
 	return (NULL);
 }

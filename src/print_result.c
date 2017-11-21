@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/11 14:20:01 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/11/16 17:33:17 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/11/21 16:21:13 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ char	*delete_conv_inside(char *rslt, t_conv **lst)
 		while (!ft_strchr("diouxXeEfFgGaAcCsSpn%", *(rslt + end))
 				&& ft_strchr(" -+0123456789#*$.hjzlL", *(rslt + end)))
 			end++;
-		if (ft_strchr(" -+0123456789#*$.hjzlLdDioOuUxXeEfFgGaAcCsSpn%", *(rslt + end))
+		if (ft_strchr(" -+0123456789#*$.hjzlLdDioOuUxXeEfFgGaAcCsSpn%",
+					*(rslt + end))
 				&& *(rslt + end))
 			end++;
 		else
@@ -40,7 +41,7 @@ char	*delete_conv_inside(char *rslt, t_conv **lst)
 	return (rslt);
 }
 
-int		print_result2(t_conv **lst, char *rslt)
+int		print_result(t_conv **lst, char *rslt)
 {
 	int		i;
 
@@ -61,63 +62,57 @@ int		print_result2(t_conv **lst, char *rslt)
 	return (i);
 }
 
-int		print_result(t_conv **lst, char *format)
+int		calc_result(t_conv **lst, char **rslt, int *i, ft_fmt func)
 {
-	static ft_fmt	func_print;
+	char	*tmp;
+	int		j;
+
+	j = -1;
+	tmp = (char *)malloc(sizeof(char) * 2);
+	tmp = ft_strcpy(tmp, "%");
+	if (!(*lst)->valid && (rslt + *i + 2))
+	{
+		*tmp = *(rslt[*i + 1]);
+		ft_strdelinside(rslt, *i, *i + 2);
+	}
+	if (!handle_null(lst, &tmp, *i))
+		if ((*lst)->conv && !(tmp = func[(*lst)->conv](lst, tmp)))
+			return (0);
+	while ((*lst)->attr[++j])
+		if (func[(*lst)->attr[j]])
+			tmp = func[(*lst)->attr[j]](lst, tmp);
+	tmp = handle_champs(lst, tmp);
+	*i += ft_strlen(tmp);
+	if (handle_void(lst, &tmp, rslt, *i))
+		return (1);
+	*rslt = ft_addinstr(*rslt, tmp, "%", *i - ft_strlen(tmp));
+	return (1);
+}
+
+int		fill_result(t_conv **lst, char *format)
+{
+	static ft_fmt	func;
 	char			*rslt;
-	char			*tmp;
 	int				i;
-	int				j;
 	char			*fmt;
 	t_conv			*tmpc;
 
 	fmt = ft_strdup(format);
 	i = 0;
-	j = 0;
 	tmpc = *lst;
-	tmp = (char *)malloc(sizeof(char) * 2);
-//	printf("\t\tPRINT_RESULT %c\n", (*lst)->conv);
 	rslt = delete_conv_inside(fmt + i, lst);
-	initiate_pointer_print(func_print);
+	initiate_pointer_print(func);
 	while (*(rslt + i))
 	{
 		if (*(rslt + i) == '%')
 		{
-			tmp = ft_strcpy(tmp, "%");
-			if (!(*lst)->valid && (rslt + i + 2))
-			{
-				*tmp = *(rslt + i + 1);
-				ft_strdelinside(&rslt, i, i + 2);
-			}
-//			printf("\t\tPRINT_RESULT.1 %c \n", (*lst)->conv);
-			if (!handle_null(lst, &tmp, i))
-			{
-//				printf("\t\tPRINT_RESULT.1.1 tmp.%s. rslt.%s.\n", tmp, rslt);
-				if ((*lst)->conv && !(tmp = func_print[(*lst)->conv](lst, tmp)))
-				{
-					*lst = (*lst)->next;
-					i++;
-					continue;
-				}
-			}
-//			printf("\t\tPRINT_RESULT.2 tmp.%s. rslt.%s.\n", tmp, rslt);
-			while ((*lst)->attr[j])
-			{
-				if (func_print[(*lst)->attr[j]])
-					tmp = func_print[(*lst)->attr[j]](lst, tmp);
-				j++;
-			}
-			tmp = handle_champs(lst, tmp);
-			i += ft_strlen(tmp);
-			if (!handle_void(lst, &tmp, &rslt, i))
-				rslt = ft_addinstr(rslt, tmp, "%", i - ft_strlen(tmp));
-//			printf("\t\tPRINT_RESULT.3 tmp.%s. rslt.%s.\n", tmp, rslt);
+			if (!calc_result(lst, &rslt, &i, func))
+				i++;
 			*lst = (*lst)->next;
 		}
 		if (*(rslt + i) != '%')
 			i++;
-		j = 0;
 	}
 	*lst = tmpc;
-	return (print_result2(lst, rslt));
+	return (print_result(lst, rslt));
 }

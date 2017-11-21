@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 14:45:24 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/11/16 17:38:16 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/11/21 14:38:13 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,27 +19,22 @@ char		*fill_prec(char *fmt, int prec, int sign)
 	return (fmt);
 }
 
-char		*handle_xX(t_conv **conv, char *fmt)
+char		*handle_x(t_conv **conv, char *fmt)
 {
 	int		i;
 	char	*str;
 
-	i = 0;
+	i = -1;
 	if ((*conv)->udata <= -4294967295)
-		str = ft_uimaxtoa_base((uintmax_t)18446744073709551615 + (*conv)->udata  + 1, 16);
-	else if ((*conv)->udata < 0)
+		str = ft_uimaxtoa_base(UINTMAX_MAX + (*conv)->udata + 1, 16);
+	else if (!((*conv)->udata > 0))
 		str = ft_uimaxtoa_base(4294967295 + (*conv)->udata + 1, 16);
-	else 
+	else
 		str = ft_uimaxtoa_base((*conv)->udata, 16);
 	if (ft_strchr("xp", (*conv)->conv))
-	{
-		while (str[i])
-		{
+		while (str[++i])
 			if (str[i] > 64 && str[i] < 71)
 				str[i] = str[i] + 32;
-			i++;
-		}
-	}
 	i = id_of_char_ifnextnot(fmt, '%', '%');
 	str = ft_addinstr(fmt, str, "% ", i);
 	if ((*conv)->udata != 0 && (*conv)->precision - 2 > 0

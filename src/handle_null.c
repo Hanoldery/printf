@@ -1,8 +1,18 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_null.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/11/21 14:38:35 by pgerbaud          #+#    #+#             */
+/*   Updated: 2017/11/21 15:20:53 by pgerbaud         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "utils.h"
 
-void			handle_invalid_conv(t_conv **conv, char **rslt, int *b, int *e)
+void		handle_invalid_conv(t_conv **conv, char **rslt, int *b, int *e)
 {
 	int		i;
 	int		len;
@@ -18,7 +28,7 @@ void			handle_invalid_conv(t_conv **conv, char **rslt, int *b, int *e)
 		while (*(*rslt + i) && *(*rslt + i) != '%')
 			i++;
 		while (ft_strlen(*rslt) - len < (*conv)->champs)
-			*rslt = (ft_strchr((*conv)->attr, '0')) ? 
+			*rslt = (ft_strchr((*conv)->attr, '0')) ?
 				ft_addinstr(*rslt, "0", 0, minus + i++) :
 				ft_addinstr(*rslt, " ", 0, minus + i++);
 	}
@@ -34,22 +44,14 @@ void			handle_invalid_conv(t_conv **conv, char **rslt, int *b, int *e)
 int			handle_void(t_conv **conv, char **tmp, char **rslt, int i)
 {
 	if (!ft_strlen(*tmp))
-	{
 		ft_strdelinside(rslt, i - 1, i + 1);
-	}
-	/*else if (!(*conv)->conv)
-	{
-		printf("\t\tFAKE CONV %s\n", *rslt);
-		ft_strdelinside(rslt, i - 2, i);
-		printf("\t\tFAKE CONV %s\n", *rslt);
-	}*/
 	else if (is_null(conv) && ft_strchr("oOxX", (*conv)->conv)
-			&& (*conv)->prec_changed && 
+			&& (*conv)->prec_changed &&
 			!(ft_strchr((*conv)->attr, '#') && ft_strchr("oO", (*conv)->conv)))
 	{
 		if (!(*conv)->champs_changed)
 		{
-			ft_strdelinside(rslt, i - 2, i );
+			ft_strdelinside(rslt, i - 2, i);
 			return (1);
 		}
 		i = ft_strfind(*tmp, '0');
@@ -67,7 +69,7 @@ int			is_null(t_conv **conv)
 	if (!(*conv)->data || !(*conv)->sdata)
 		return (1);
 	if (!*(*conv)->data && !*(*conv)->sdata && !(*conv)->udata
-			&& (*conv)->conv != '%' 
+			&& (*conv)->conv != '%'
 			&& !(ft_strchr("s", (*conv)->conv) && *(*conv)->modif == 'l'))
 		return (1);
 	return (0);
@@ -80,7 +82,6 @@ int			handle_null(t_conv **conv, char **tmp, int j)
 	i = 0;
 	if (is_null(conv))
 	{
-	//	printf("\t\tIS_NULL %c %d %d\n", (*conv)->conv, !(*conv)->prec_changed, (*conv)->precision != 0);
 		if (ft_strchr("oOxX", (*conv)->conv) || ft_strchr((*conv)->attr, '#')
 				|| ((*conv)->conv == 'd' && (!(*conv)->prec_changed
 					|| (*conv)->precision != 0))
@@ -94,7 +95,6 @@ int			handle_null(t_conv **conv, char **tmp, int j)
 		if ((*conv)->conv == 'c')
 			i = ((*conv)->champs_changed) ? i + (*conv)->champs + 1 : i + 1;
 		(*conv)->pos = ((*conv)->champs_changed) ? j + (*conv)->champs - 1 : j;
-//		TODO USEFULL UNDER THAT ?
 		while (*(*tmp + i))
 			*(*tmp + i++) = '\0';
 		return (1);

@@ -6,19 +6,24 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/11 12:09:33 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/11/16 18:07:00 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/11/21 16:54:21 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PRINTF_UTILS_H
 # define PRINTF_UTILS_H
-/* Verifier si un lien entre define et nom de fichier */
+
+/*
+**	Verifier si un lien entre define et nom de fichier
+*/
+
 # include <inttypes.h>
 # include <wchar.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdarg.h>
 # include <locale.h>
+# include <limits.h>
 # include "../libft/libft.h"
 
 typedef struct		s_conv
@@ -38,11 +43,12 @@ typedef struct		s_conv
 	struct s_conv	*next;
 }					t_conv;
 
-
 typedef char *(*ft_fmt[123])(t_conv **conv, char *fmt);
-void				analyze_conversion(const char *format, va_list args, t_conv **lst);
+void				analyze_conversion(const char *format, va_list args,
+		t_conv **lst);
 t_conv				*create_lst_conv();
-int					get_lst_conv(const char *format, t_conv **lstconv, va_list args);
+int					get_lst_conv(const char *format, t_conv **lstconv,
+		va_list args);
 
 void				assign_arg(t_conv **conv, va_list args);
 void				assign_arg_unsigned(t_conv **conv, va_list args);
@@ -50,7 +56,7 @@ void				assign_arg_signed(t_conv **conv, va_list args);
 void				assign_arg_special(t_conv **conv, va_list args);
 void				assign_next(t_conv **conv, va_list args, int j, int *i);
 
-int					print_result(t_conv **lst, char *fmt);
+int					fill_result(t_conv **lst, char *fmt);
 void				initiate_pointer(ft_fmt func);
 void				initiate_pointer_print(ft_fmt func);
 int					id_of_char_ifnextnot(char *str, char c, char n);
@@ -64,7 +70,6 @@ char				*length_fmt(t_conv **conv, char *fmt);
 char				*conv_fmt(t_conv **conv, char *fmt);
 char				*handle_champs(t_conv **conv, char *fmt);
 
-
 int					handle_null(t_conv **conv, char **fmt, int i);
 void				handle_invalid_conv(t_conv **c, char **r, int *b, int *e);
 int					is_null(t_conv **conv);
@@ -73,13 +78,13 @@ char				*handle_hash(t_conv **conv, char *fmt);
 char				*handle_space_plus(t_conv **conv, char *fmt);
 char				*handle_di(t_conv **conv, char *fmt);
 char				*handle_ou(t_conv **conv, char *fmt);
-char				*handle_xX(t_conv **conv, char *fmt);
-char				*handle_eE(t_conv **conv, char *fmt);
-char				*handle_fF(t_conv **conv, char *fmt);
-char				*handle_gG(t_conv **conv, char *fmt);
-char				*handle_aA(t_conv **conv, char *fmt);
-char				*handle_cC(t_conv **conv, char *fmt);
-char				*handle_sS(t_conv **conv, char *fmt);
+char				*handle_x(t_conv **conv, char *fmt);
+char				*handle_e(t_conv **conv, char *fmt);
+char				*handle_f(t_conv **conv, char *fmt);
+char				*handle_g(t_conv **conv, char *fmt);
+char				*handle_a(t_conv **conv, char *fmt);
+char				*handle_c(t_conv **conv, char *fmt);
+char				*handle_s(t_conv **conv, char *fmt);
 char				*handle_n(t_conv **conv, char *fmt);
 char				*handle_percent(t_conv **conv, char *fmt);
 

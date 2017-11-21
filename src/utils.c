@@ -6,17 +6,17 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 12:25:16 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/11/16 14:46:25 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/11/21 16:29:09 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-t_conv		*create_lst_conv()
+t_conv		*create_lst_conv(void)
 {
 	t_conv	*nlst;
 
-	if(!(nlst = (t_conv *)malloc(sizeof(t_conv))))
+	if (!(nlst = (t_conv *)malloc(sizeof(t_conv))))
 		return (NULL);
 	nlst->next = NULL;
 	nlst->pos = 0;
@@ -61,10 +61,9 @@ void		initiate_pointer(ft_fmt func)
 	i = 0;
 	while (*(s1 + i))
 		func[*(s1 + i++)] = conv_fmt;
-	// TODO free(s1);
 }
 
-void	initiate_pointer_print(ft_fmt func)
+void		initiate_pointer_print(ft_fmt func)
 {
 	func['#'] = handle_hash;
 	func['+'] = handle_space_plus;
@@ -73,21 +72,21 @@ void	initiate_pointer_print(ft_fmt func)
 	func['d'] = handle_di;
 	func['i'] = handle_di;
 	func['u'] = handle_ou;
-	func['x'] = handle_xX;
-	func['X'] = handle_xX;
-	func['e'] = handle_eE;
-	func['E'] = handle_eE;
-	func['f'] = handle_fF;
-	func['F'] = handle_fF;
-	func['g'] = handle_gG;
-	func['G'] = handle_gG;
-	func['a'] = handle_aA;
-	func['A'] = handle_aA;
-	func['c'] = handle_cC;
-	func['C'] = handle_cC;
-	func['s'] = handle_sS;
-	func['S'] = handle_sS;
-	func['p'] = handle_xX;
+	func['x'] = handle_x;
+	func['X'] = handle_x;
+	func['e'] = handle_e;
+	func['E'] = handle_e;
+	func['f'] = handle_f;
+	func['F'] = handle_f;
+	func['g'] = handle_g;
+	func['G'] = handle_g;
+	func['a'] = handle_a;
+	func['A'] = handle_a;
+	func['c'] = handle_c;
+	func['C'] = handle_c;
+	func['s'] = handle_s;
+	func['S'] = handle_s;
+	func['p'] = handle_x;
 	func['n'] = handle_n;
 	func['%'] = handle_percent;
 }
@@ -103,7 +102,7 @@ char		*ft_addinstr(char *dst, char *src, char *eq, int index)
 		{
 			*(dst + index++) = *(src++);
 			if (*(dst + index) == '%')
-				break;
+				break ;
 		}
 	}
 	if (dst && *dst)
@@ -111,9 +110,8 @@ char		*ft_addinstr(char *dst, char *src, char *eq, int index)
 		ft_strncat(rslt, dst, index);
 		ft_strcat(rslt, src);
 		ft_strcat(rslt, dst + index);
-		//TODO free(dst);
 	}
-	else 
+	else
 		rslt = ft_strcat(rslt, src);
 	return (rslt);
 }
