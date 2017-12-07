@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 16:28:53 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/11/21 12:50:46 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/12/05 12:55:47 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,32 @@ char		*field_fmt(t_conv **lstconv, char *fmt)
 {
 	int		i;
 	int		field_next;
+	char	*s;
 
 	i = 0;
 	field_next = 0;
+	s = NULL;
 	if (*fmt == '*')
-	{
+		return ((char *)-1);
+/*	{
 		field_next = 1;
 		fmt++;
-	}
+	}*/
 	while (ft_strchr("0123456789", fmt[i]))
 		i++;
+	s = ft_strsub(fmt, 0, i);
 	if (field_next && *(fmt + i) == '$')
-		(*lstconv)->champs = -1 * ft_atoi(ft_strsub(fmt, 0, i));
+		(*lstconv)->champs = -1 * ft_atoi(s);
 	else if (!field_next && i > 0)
-		(*lstconv)->champs = ft_atoi(ft_strsub(fmt, 0, i));
+		(*lstconv)->champs = (ft_atoi(s) > 0) ? ft_atoi(s) : ft_atoi(s) * -1;
 	if (field_next && (*lstconv)->champs == 0)
 		(*lstconv)->champs = -1;
 	else
 		(*lstconv)->champs_changed = 1;
-	if (*(fmt + i) == '$')
-		fmt++;
+	fmt = (*(fmt + i) == '$') ? fmt++ : fmt;
+	if ((*lstconv)->champs > 2000000)
+		(*lstconv)->champs = 0;
+	free(s);
 	return (fmt + i);
 }
 
@@ -44,13 +50,14 @@ char		*prec_fmt(t_conv **lstconv, char *fmt)
 	int i;
 	int field_next;
 
-	field_next = 1;
+	field_next = 0;
 	i = 0;
 	fmt++;
 	if (*fmt == '*')
-		fmt = fmt + 1;
+		return ((char *)-1);
+	/*	fmt = fmt + 1;
 	else
-		field_next = 0;
+		field_next = 0;*/
 	while (ft_strchr("0123456789", fmt[i]))
 		i++;
 	if (field_next)
@@ -75,10 +82,12 @@ char		*attr_fmt(t_conv **lstconv, char *fmt)
 	i = 0;
 	while (ft_strchr("#0-+ ", *fmt))
 	{
+		//printf("SEGATTR 0\n");
 		if (*fmt == '0' && ft_strchr((*lstconv)->attr, '+'))
 			(*lstconv)->attr = ft_addinstr((*lstconv)->attr, "0", 0, 0);
 		else
 			(*lstconv)->attr[i++] = *fmt;
+		//printf("SEGATTR 1\n");
 		if (*fmt == '-')
 			if ((tmp = ft_strchr((*lstconv)->attr, '0')))
 				while (*tmp)
@@ -93,12 +102,12 @@ char		*length_fmt(t_conv **lstconv, char *fmt)
 {
 	if (*fmt == 'h' && *(fmt + 1) == 'h')
 	{
-		(*lstconv)->modif = "hh";
+		ft_strcpy((*lstconv)->modif, "hh");
 		fmt++;
 	}
 	else if (*fmt == 'l' && *(fmt + 1) == 'l')
 	{
-		(*lstconv)->modif = "ll";
+		ft_strcpy((*lstconv)->modif, "ll");
 		fmt++;
 	}
 	else

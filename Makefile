@@ -6,7 +6,7 @@
 #    By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/08/11 13:08:28 by pgerbaud          #+#    #+#              #
-#    Updated: 2017/11/21 16:57:36 by pgerbaud         ###   ########.fr        #
+#    Updated: 2017/12/05 10:36:16 by pgerbaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRCS = 	src/ft_printf.c \
 		src/print_result.c \
 		src/format.c \
 		src/utils.c \
+		src/lst_utils.c \
 		src/sort_attr.c \
 		src/handle_attr.c \
 		src/handle_cspn.c \
@@ -33,16 +34,20 @@ LIBFT_SRC = putchar \
 			putchar_fd \
 			putstr_fd \
 			strmchr \
-			strmchr \
+			strmintchr \
 			atoi \
+			iprintsize \
+			uiprintsize \
 			strchr \
 			strsub \
 			bzero \
+			memcpy \
 			strlen \
 			strfind \
 			strdup \
 			strcpy \
 			strncpy \
+			strfill \
 			strcat \
 			strncat \
 			strnew \

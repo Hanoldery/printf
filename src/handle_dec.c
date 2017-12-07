@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 14:45:24 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/11/21 14:38:13 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/12/07 19:00:54 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char		*handle_x(t_conv **conv, char *fmt)
 {
 	int		i;
 	char	*str;
-
+/* IL Y A DU MALLOC PAR ICI, RENVOYER FMT AU LIEU DE STR */
 	i = -1;
 	if ((*conv)->udata <= -4294967295)
 		str = ft_uimaxtoa_base(UINTMAX_MAX + (*conv)->udata + 1, 16);
@@ -36,25 +36,25 @@ char		*handle_x(t_conv **conv, char *fmt)
 			if (str[i] > 64 && str[i] < 71)
 				str[i] = str[i] + 32;
 	i = id_of_char_ifnextnot(fmt, '%', '%');
-	str = ft_addinstr(fmt, str, "% ", i);
+	fmt = ft_addinstr(fmt, str, "% ", i);
 	if ((*conv)->udata != 0 && (*conv)->precision - 2 > 0
 			&& ft_strchr((*conv)->attr, '#'))
-		str = fill_prec(str, (*conv)->precision + 2, 0);
+		fmt = fill_prec(fmt, (*conv)->precision + 1, 0);
 	else
-		str = fill_prec(str, (*conv)->precision, 0);
-	return (str);
+		fmt = fill_prec(fmt, (*conv)->precision, 0);
+	return (fmt);
 }
 
 char		*handle_di(t_conv **conv, char *fmt)
 {
 	int		i;
 	char	*str;
-
+/* IL Y A DU MALLOC PAR ICI, RENVOYER FMT AU LIEU DE STR */
 	str = ft_imaxtoa((*conv)->data[0]);
 	i = id_of_char_ifnextnot(fmt, '%', '%');
-	str = ft_addinstr(fmt, str, "%", i);
-	str = fill_prec(str, (*conv)->precision, (*conv)->data[0] < 0);
-	return (str);
+	fmt = ft_addinstr(fmt, str, "%", i);
+	fmt = fill_prec(fmt, (*conv)->precision, (*conv)->data[0] < 0);
+	return (fmt);
 }
 
 char		*handle_ou(t_conv **conv, char *fmt)
@@ -68,7 +68,7 @@ char		*handle_ou(t_conv **conv, char *fmt)
 	if ((*conv)->conv == 'u')
 		str = ft_uimaxtoa((*conv)->udata);
 	i = id_of_char_ifnextnot(fmt, '%', '%');
-	str = ft_addinstr(fmt, str, "%", i);
-	str = fill_prec(str, (*conv)->precision, 0);
-	return (str);
+	fmt = ft_addinstr(fmt, str, "%", i);
+	fmt = fill_prec(fmt, (*conv)->precision, 0);
+	return (fmt);
 }

@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 14:50:28 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/11/21 14:10:50 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/12/07 19:01:38 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char		*handle_c(t_conv **conv, char *fmt)
 		*rslt = (char)*(*conv)->sdata;
 	}
 	fmt = ft_addinstr(fmt, rslt, "%", 0);
+	free(rslt);
 	return (fmt);
 }
 
@@ -36,6 +37,7 @@ char		*handle_s(t_conv **conv, char *fmt)
 	char	*rslt;
 	int		max;
 
+	//printf("HANDLE_S 0 fmt.%p\n", fmt);
 	max = (*conv)->precision;
 	str = (*conv)->sdata;
 	rslt = NULL;
@@ -46,15 +48,21 @@ char		*handle_s(t_conv **conv, char *fmt)
 		rslt = ft_strdup((char *)(*conv)->sdata);
 	if (ft_strlen(rslt) > (*conv)->precision && (*conv)->prec_changed)
 		*(rslt + (*conv)->precision) = '\0';
+	//printf("HANDLE_S 1 fmt.%p _%s_ %d\n", rslt, rslt, ft_strlen(rslt));
 	if (ft_strlen(rslt) == 0)
 	{
-		rslt = ft_strnew(2);
-		*rslt = (char)0;
-		*(rslt + 1) = '\0';
+		//rslt = ft_strnew(2);
+		*fmt = 0;
+		*(fmt + 1) = '\0';
+		//*rslt = (char)0;
+		//*(rslt + 1) = '\0';
+		//printf("HANDLE_S 1.0 fmt.%p\n", fmt);
 	}
 	else
-		rslt = ft_addinstr(fmt, rslt, "%", 0);
-	return (rslt);
+		fmt = ft_addinstr(fmt, rslt, "%", 0);
+	//printf("HANDLE_S 2 rslt.%p %d\n", rslt, ft_strlen(rslt));
+	free(rslt);
+	return (fmt);
 }
 
 char		*handle_n(t_conv **conv, char *fmt)

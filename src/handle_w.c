@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/20 15:21:29 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/11/21 15:21:51 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/12/07 18:36:21 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,21 @@ char		*wchar_to_str(wchar_t wchar)
 	}
 	*(str + w_size(wchar) - 1) = (wchar & 0x3F) + 0x80;
 	return (str);
+}
+
+int			wchar_size(wchar_t *swchar)
+{
+	int		i;
+	int		rslt;
+
+	rslt = 0;
+	i = 0;
+	while (*(swchar + i))
+	{
+		rslt += w_size(*(swchar + i));
+		i++;
+	}
+	return (rslt);
 }
 
 char		*wcharstr_to_str(wchar_t *swchar, t_conv **conv)

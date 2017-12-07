@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/22 18:19:59 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/11/21 16:45:40 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/12/07 13:34:37 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,16 @@ void		assign_arg_special(t_conv **lstconv, va_list args)
 	if (ft_strchr("cs", (*lstconv)->conv))
 	{
 		if ((*lstconv)->conv == 'c')
+		{
 			((*lstconv)->modif[0] == 'l') ?
 				((*lstconv)->sdata[0] = va_arg(args, wint_t)) :
 				((*lstconv)->sdata[0] = va_arg(args, int));
+		}
 		else if ((*lstconv)->conv == 's')
 		{
 			((*lstconv)->modif[0] == 'l') ?
-				((*lstconv)->sdata = (wint_t *)va_arg(args, wchar_t *))
-				: ((*lstconv)->sdata = (wint_t *)va_arg(args, char *));
+				((*lstconv)->sdata = (wint_t *)va_arg(args, wchar_t *)) :
+				((*lstconv)->sdata = (wint_t *)va_arg(args, char *));
 			if ((*lstconv)->sdata == (int *)0xa)
 				(*lstconv)->sdata = NULL;
 		}
@@ -101,10 +103,24 @@ void		assign_next(t_conv **lst, va_list args, int j, int *i)
 
 void		assign_arg(t_conv **conv, va_list args)
 {
+	//printf("ANALYZE_ASSING 0\n");
 	if (ft_strchr("dDi", (*conv)->conv))
 		assign_arg_signed(conv, args);
 	else if (ft_strchr("oOuUxX", (*conv)->conv))
 		assign_arg_unsigned(conv, args);
 	else
 		assign_arg_special(conv, args);
+/*	if ((long)(*conv)->sdata < (long)4294967296)
+	{	
+		(*conv)->sdata = (wint_t *)malloc(sizeof(wint_t) * 2);
+		(*conv)->sdata[0] = 0;
+	}
+	if ((long)&(*conv)->udata < (long)4294967296)
+		(*conv)->udata = 0;
+	if ((long)(*conv)->data < (long)4294967296)
+	{
+		(*conv)->data = (intmax_t *)malloc(sizeof(intmax_t) * 2);
+		(*conv)->data[0] = 0;
+	}*/
+		//printf("ANALYZE_ASSING 1\n");
 }

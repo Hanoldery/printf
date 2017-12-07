@@ -6,45 +6,21 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 12:25:16 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/11/21 16:29:09 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/12/07 18:12:04 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
-
-t_conv		*create_lst_conv(void)
-{
-	t_conv	*nlst;
-
-	if (!(nlst = (t_conv *)malloc(sizeof(t_conv))))
-		return (NULL);
-	nlst->next = NULL;
-	nlst->pos = 0;
-	nlst->attr = ft_strnew(5);
-	nlst->data = (intmax_t *)malloc(sizeof(intmax_t));
-	*nlst->data = 0;
-	nlst->sdata = (wint_t *)malloc(sizeof(wint_t));
-	*nlst->sdata = 0;
-	nlst->udata = 0;
-	nlst->champs = 0;
-	nlst->precision = 0;
-	nlst->prec_changed = 0;
-	nlst->champs_changed = 0;
-	nlst->valid = 1;
-	nlst->conv = (char)malloc(sizeof(char));
-	nlst->conv = '\0';
-	nlst->modif = ft_strnew(2);
-	return (nlst);
-}
 
 void		initiate_pointer(ft_fmt func)
 {
 	char	*s1;
 	int		i;
 
+	s1 = (char *)malloc(sizeof(char) * 30);
 	while (i < 123)
 		func[i++] = 0;
-	s1 = ft_strdup("123456789*\0");
+	s1 = ft_strcpy(s1, "123456789*\0");
 	i = 0;
 	while (*(s1 + i))
 		func[*(s1 + i++)] = field_fmt;
@@ -61,6 +37,7 @@ void		initiate_pointer(ft_fmt func)
 	i = 0;
 	while (*(s1 + i))
 		func[*(s1 + i++)] = conv_fmt;
+	free(s1);
 }
 
 void		initiate_pointer_print(ft_fmt func)
@@ -93,27 +70,46 @@ void		initiate_pointer_print(ft_fmt func)
 
 char		*ft_addinstr(char *dst, char *src, char *eq, int index)
 {
-	char	*rslt;
+	int		i;
+	int		j;
+	int		plus;
+	int		max;
 
-	rslt = ft_strnew(ft_strlen(dst) + ft_strlen(src) + 1);
+	plus = 0;
+	max = ft_strlen(dst);
+	j = ft_strlen(dst) - index + 1;
+	i = -1;
+	//printf("\nADDINSTR 0 \tdst_%s_ \tsrc_%s_ eq_%s_ index_%d_\n", dst, src, eq, index);
 	if (eq && ft_strchr(eq, *(dst + index)))
 	{
-		while (*(dst + index) && *src && ft_strchr(eq, *(dst + index)))
-		{
-			*(dst + index++) = *(src++);
-			if (*(dst + index) == '%')
-				break ;
-		}
+		//printf("\tADDINSTR 1 src_%s_\n", src);
+		*(dst + index) = *src;
+		src++;
+		plus++;
+		//printf("\tADDINSTR 2 src_%s_\n", src);
 	}
 	if (dst && *dst)
 	{
-		ft_strncat(rslt, dst, index);
-		ft_strcat(rslt, src);
-		ft_strcat(rslt, dst + index);
+		//printf("\tADDINSTR 3 src_%s_ src.%p dst.%p\n", src, src, dst);
+		while (++i < ft_strlen(src))
+		{
+			//printf("\tADDINSTR 3.0 BCL i.%d. dst_%s_\n", i, dst);
+			while (--j >= 0)
+			{
+				//printf("\tADDINSTR 3.0.0 BCL _%s_", src);
+				//printf("\tindex.%d i.%d j.%d\tsrc.%p total.%p\n", index, i, j, src, dst + index + i + j + 1);
+				dst[index + i + j + 1] = dst[index + i + j];
+			}
+			j = max - index + 1;
+			//printf("\tADDINSTR 3.1 BCL i.%d. src_%s_\n\n", i, src);
+		}
+		//printf("\tADDINSTR 4 src_%s_ %p lsrc%d\n", src, dst + index + plus, ft_strlen(src));
+		ft_memcpy(dst + index + plus, src, ft_strlen(src));
 	}
 	else
-		rslt = ft_strcat(rslt, src);
-	return (rslt);
+		dst = ft_strcat(dst, src);
+	//printf("ADDINSTR RSLT rslt_%s_\n", dst);
+	return (dst);
 }
 
 int			id_of_char_ifnextnot(char *str, char c, char n)

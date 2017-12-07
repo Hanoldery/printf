@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/11 12:09:33 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/11/21 16:54:21 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/12/07 18:36:45 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PRINTF_UTILS_H
 
 /*
-**	Verifier si un lien entre define et nom de fichier
+	Verifier si un lien entre define et nom de fichier
 */
 
 # include <inttypes.h>
@@ -44,9 +44,10 @@ typedef struct		s_conv
 }					t_conv;
 
 typedef char *(*ft_fmt[123])(t_conv **conv, char *fmt);
-void				analyze_conversion(const char *format, va_list args,
+int					analyze_conversion(const char *format, va_list args,
 		t_conv **lst);
 t_conv				*create_lst_conv();
+int					lst_final_size(t_conv *lst);
 int					get_lst_conv(const char *format, t_conv **lstconv,
 		va_list args);
 
@@ -62,6 +63,7 @@ void				initiate_pointer_print(ft_fmt func);
 int					id_of_char_ifnextnot(char *str, char c, char n);
 void				sort_attr(t_conv **conv, char **attr);
 char				*ft_addinstr(char *dst, char *a, char *c, int i);
+char				*ft_addinstrtest(char *dst, char *a, char *c, int i, t_conv *lst);
 
 char				*field_fmt(t_conv **conv, char *fmt);
 char				*prec_fmt(t_conv **conv, char *fmt);
@@ -89,6 +91,7 @@ char				*handle_n(t_conv **conv, char *fmt);
 char				*handle_percent(t_conv **conv, char *fmt);
 
 int					w_size(wchar_t wchar);
+int					wchar_size(wchar_t *swchar);
 char				*wchar_to_str(wchar_t wchar);
 char				*wcharstr_to_str(wchar_t *swchar, t_conv **conv);
 

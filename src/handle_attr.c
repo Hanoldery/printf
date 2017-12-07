@@ -6,25 +6,38 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 14:42:05 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/11/21 12:59:52 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2017/12/07 18:20:35 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
+char		*fill_champs(t_conv **conv, char *fmt, char *c, int index)
+{
+	int		hex;
+
+	/* CHANGER CETTE FACON DE FAIRE POUR UN TRUC PLUS RAPIDE*/
+	while ((*conv)->champs > 0 && ft_strlen(fmt) < (*conv)->champs)
+	{
+		//printf("FILL_CHAMPS BCL _%c_ %d %d\n", *c, (*conv)->champs, ft_strlen(fmt));
+		fmt = (ft_strchr((*conv)->attr, '-')) ?
+			ft_addinstr(fmt, c, 0, ft_strlen(fmt)) :
+			ft_addinstr(fmt, c, 0, index);
+	}
+	return (fmt);
+}
+
 char		*handle_champs(t_conv **conv, char *fmt)
 {
-	int		i;
-	char	*c;
+	char	*rslt;
+	char	c;
 	int		index;
 
+	rslt = NULL;
 	index = 0;
-	c = ft_strnew(2);
-	i = ft_strlen(fmt);
+	c = ' ';
 	if (ft_strchr((*conv)->attr, '0'))
-		*c = '0';
-	else
-		*c = ' ';
+		c = '0';
 	if ((*(*conv)->data < 0 && ft_strchr((*conv)->attr, '0'))
 			|| (ft_strchr((*conv)->attr, '+') && ft_strchr((*conv)->attr, '0'))
 			|| ft_strchr((*conv)->attr, ' '))
@@ -32,11 +45,8 @@ char		*handle_champs(t_conv **conv, char *fmt)
 	if (ft_strchr("xXp", (*conv)->conv) && ft_strchr((*conv)->attr, '#')
 			&& ft_strchr((*conv)->attr, '0'))
 		index = 2;
-	while (i++ < (*conv)->champs)
-		fmt = (ft_strchr((*conv)->attr, '-')) ?
-			ft_addinstr(fmt, c, 0, ft_strlen(fmt)) :
-			ft_addinstr(fmt, c, 0, index);
-	return (fmt);
+	rslt = fill_champs(conv, fmt, &c, index);
+	return (rslt);
 }
 
 char		*handle_space_plus(t_conv **conv, char *fmt)
@@ -45,18 +55,22 @@ char		*handle_space_plus(t_conv **conv, char *fmt)
 	char	*rslt;
 
 	i = 0;
-	rslt = NULL;
+	rslt = fmt;
 	if ((!ft_strchr("dDxXoOi", (*conv)->conv) ||
 				ft_strchr((*conv)->modif, 'l')) || *((*conv)->data) < 0)
-		return (fmt);
+		return (rslt);
 	if (i > 0)
 		i--;
 	if (ft_strchr((*conv)->attr, '+') && (*conv)->data)
-		rslt = ft_addinstr(fmt, "+", 0, i);
+		rslt = ft_addinstr(rslt, "+", 0, i);
 	else if (ft_strchr((*conv)->attr, ' ') && (*conv)->conv != '%')
-		rslt = ft_addinstr(fmt, " ", 0, i);
+		rslt = ft_addinstr(rslt, " ", 0, i);
 	else
-		return (fmt);
+	{
+		free(fmt);
+		return (rslt);
+	}
+	free(fmt);
 	return (rslt);
 }
 
