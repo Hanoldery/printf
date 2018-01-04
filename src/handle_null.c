@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 14:38:35 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/12/07 17:22:35 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2018/01/04 15:28:52 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void		handle_invalid_conv(t_conv **conv, char **rslt, int *b, int *e)
 
 int			handle_void(t_conv **conv, char **tmp, char **rslt, int i)
 {
+	//printf("\t\t HANDLE_NULL 0 tmp.%p\n", *tmp);
 	if (!ft_strlen(*tmp))
 		ft_strdelinside(rslt, i - 1, i + 1);
 	else if (is_null(conv) && ft_strchr("oOxX", (*conv)->conv)

@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 16:28:53 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/12/05 12:55:47 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2018/01/04 16:05:57 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,35 +41,36 @@ char		*field_fmt(t_conv **lstconv, char *fmt)
 	fmt = (*(fmt + i) == '$') ? fmt++ : fmt;
 	if ((*lstconv)->champs > 2000000)
 		(*lstconv)->champs = 0;
-	free(s);
+	ft_strdel(&s);
 	return (fmt + i);
 }
 
 char		*prec_fmt(t_conv **lstconv, char *fmt)
 {
-	int i;
-	int field_next;
+	int		i;
+	int		field_next;
+	char	*sub;
 
+	sub = 0;
 	field_next = 0;
 	i = 0;
 	fmt++;
 	if (*fmt == '*')
 		return ((char *)-1);
-	/*	fmt = fmt + 1;
-	else
-		field_next = 0;*/
 	while (ft_strchr("0123456789", fmt[i]))
 		i++;
+	sub = ft_strsub(fmt, 0, i);
 	if (field_next)
-		(*lstconv)->precision = -1 * ft_atoi(ft_strsub(fmt, 0, i));
+		(*lstconv)->precision = -1 * ft_atoi(sub);
 	else
-		(*lstconv)->precision = ft_atoi(ft_strsub(fmt, 0, i));
+		(*lstconv)->precision = ft_atoi(sub);
 	if (fmt[i] == '$')
 		fmt++;
 	if (field_next && (*lstconv)->precision == 0)
 		(*lstconv)->precision = -1;
 	else
 		(*lstconv)->prec_changed = 1;
+	ft_strdel(&sub);
 	return (fmt + i);
 }
 

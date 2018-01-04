@@ -6,7 +6,7 @@
 #    By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/08/11 13:08:28 by pgerbaud          #+#    #+#              #
-#    Updated: 2017/12/05 10:36:16 by pgerbaud         ###   ########.fr        #
+#    Updated: 2018/01/04 13:24:42 by pgerbaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ LIBFT_SRC = putchar \
 			memcpy \
 			strlen \
 			strfind \
+			strdel \
 			strdup \
 			strcpy \
 			strncpy \

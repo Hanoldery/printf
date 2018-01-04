@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/11 12:17:54 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/12/07 10:40:43 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2018/01/04 13:26:59 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int			analyze_conversion(const char *format, va_list args, t_conv **lst)
 			tmp++;
 		tmp++;
 	}
-	free(del);
+	ft_strdel(&del);
 	*lst = lstmp;
 	get_lst_conv(format, lst, args);
 			t_conv *ltmp;

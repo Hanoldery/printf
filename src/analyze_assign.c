@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/22 18:19:59 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/12/07 13:34:37 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2018/01/04 16:08:16 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void		assign_arg_special(t_conv **lstconv, va_list args)
 		}
 		else if ((*lstconv)->conv == 's')
 		{
+			free((*lstconv)->sdata);
 			((*lstconv)->modif[0] == 'l') ?
 				((*lstconv)->sdata = (wint_t *)va_arg(args, wchar_t *)) :
 				((*lstconv)->sdata = (wint_t *)va_arg(args, char *));

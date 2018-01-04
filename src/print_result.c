@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/11 14:20:01 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/12/07 19:00:01 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2018/01/04 16:12:11 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,11 @@ char	*delete_conv_inside(char *rslt, t_conv **lst)
 int		print_result(t_conv **lst, char *rslt)
 {
 	int		i;
+	t_conv	*lstmp;
 
 	i = 0;
 	//printf("\tSEG PRINT RSLT 0\n");
+	lstmp = *lst;
 	while ((*lst)->next)
 	{
 		//printf("\tSEG PRINT RSLT 0.0\n");
@@ -82,7 +84,8 @@ int		print_result(t_conv **lst, char *rslt)
 	while (i < ft_strlen(rslt))
 		ft_putchar_fd(rslt[i++], 1);
 	//printf("\tSEG PRINT RSLT 2\n");
-	free(rslt);
+	ft_strdel(&rslt);
+	*lst = lstmp;
 	return (i);
 }
 
@@ -93,11 +96,10 @@ int		calc_result(t_conv **lst, char **rslt, int *i, ft_fmt func, t_conv *ltmp)
 
 	j = -1;
 	//printf("\tSEG PRINT 0\n");
-	tmp = (char *)malloc(sizeof(char) * (lst_final_size(*lst)
-				+ ft_strlen(*rslt)));
+	tmp = ft_strnew(lst_final_size(*lst) + ft_strlen(*rslt));
 	//printf("\tCALC_RESULT 0 %d\n", lst_final_size(*lst) + ft_strlen(*rslt));
 	tmp = ft_strcpy(tmp, "%");
-	//printf("\tCALC_RESULT 0.0 %p\n", tmp);
+	//printf("\tCALC_RESULT 0 %p\n", tmp);
 	if (!(*lst)->valid && (rslt + *i + 2))
 	{
 		*tmp = *(rslt[*i + 1]);
@@ -115,9 +117,9 @@ int		calc_result(t_conv **lst, char **rslt, int *i, ft_fmt func, t_conv *ltmp)
 	*i += ft_strlen(tmp);
 	if (handle_void(lst, &tmp, rslt, *i))
 		return (1);
-	//printf("\tCALC_RESULT 3 %p\n", tmp);
 	*rslt = ft_addinstr(*rslt, tmp, "%", *i - ft_strlen(tmp));
-	//free(tmp);
+	//printf("\tCALC_RESULT 3 %p\n", tmp);
+	ft_strdel(&tmp);
 	//printf("\tCALC_RESULT 4 %p\n", tmp);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 14:42:05 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/12/07 18:20:35 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2018/01/04 15:27:35 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,7 @@ char		*handle_space_plus(t_conv **conv, char *fmt)
 	else if (ft_strchr((*conv)->attr, ' ') && (*conv)->conv != '%')
 		rslt = ft_addinstr(rslt, " ", 0, i);
 	else
-	{
-		free(fmt);
 		return (rslt);
-	}
-	free(fmt);
 	return (rslt);
 }
 

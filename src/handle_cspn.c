@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 14:50:28 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/12/07 19:01:38 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2018/01/04 20:19:41 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ char		*handle_c(t_conv **conv, char *fmt)
 	str = (wint_t)(*conv)->sdata[0];
 	rslt = NULL;
 	if (ft_strchr((*conv)->modif, 'l') && MB_CUR_MAX > 1)
-		rslt = ft_strdup(wchar_to_str(str));
+		rslt = wchar_to_str(str);
 	else
 	{
 		rslt = ft_strnew(2);
 		*rslt = (char)*(*conv)->sdata;
 	}
 	fmt = ft_addinstr(fmt, rslt, "%", 0);
-	free(rslt);
+	ft_strdel(&rslt);
 	return (fmt);
 }
 
@@ -43,7 +43,7 @@ char		*handle_s(t_conv **conv, char *fmt)
 	rslt = NULL;
 	if (((*conv)->conv == 'S' || ft_strchr((*conv)->modif, 'l'))
 			&& MB_CUR_MAX > 1)
-		rslt = ft_strdup(wcharstr_to_str(str, conv));
+		rslt = wcharstr_to_str(str, conv);
 	else
 		rslt = ft_strdup((char *)(*conv)->sdata);
 	if (ft_strlen(rslt) > (*conv)->precision && (*conv)->prec_changed)
@@ -61,7 +61,7 @@ char		*handle_s(t_conv **conv, char *fmt)
 	else
 		fmt = ft_addinstr(fmt, rslt, "%", 0);
 	//printf("HANDLE_S 2 rslt.%p %d\n", rslt, ft_strlen(rslt));
-	free(rslt);
+	ft_strdel(&rslt);
 	return (fmt);
 }
 

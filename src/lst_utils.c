@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/05 10:03:38 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/12/07 18:40:02 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2018/01/04 20:14:27 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ t_conv		*create_lst_conv(void)
 	nlst->prec_changed = 0;
 	nlst->champs_changed = 0;
 	nlst->valid = 1;
-	nlst->conv = (char)malloc(sizeof(char));
 	nlst->conv = '\0';
 	nlst->modif = ft_strnew(3);
 	return (nlst);

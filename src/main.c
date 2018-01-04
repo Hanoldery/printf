@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/11 14:52:52 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/12/07 18:51:32 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2018/01/04 16:01:43 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int main(void)
 	intmax_t im = 9223372036854775807;
 	setlocale(LC_ALL, "");
 
-	while ((double)time/CLOCKS_PER_SEC < 15)
-	{
+	//while ((double)time/CLOCKS_PER_SEC < 15)
+	//{
 		time = clock();
 		ft_printf("\n");
 		ft_printf("%%\n");
@@ -45,7 +45,7 @@ int main(void)
 		ft_printf("%x %#X %S %s%s\n", 1000, 1000, L"ݗݜशব", "test", "test2");
 		ft_printf("%s%s%s\n", "test", "test", "test");
 		ft_printf("%C\n", 15000);
-	}
+	//}
 
 	return (0);
 }
