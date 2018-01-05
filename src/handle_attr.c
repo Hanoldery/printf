@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 14:42:05 by pgerbaud          #+#    #+#             */
-/*   Updated: 2018/01/04 15:27:35 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2018/01/05 13:46:13 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,8 @@
 
 char		*fill_champs(t_conv **conv, char *fmt, char *c, int index)
 {
-	int		hex;
-
-	/* CHANGER CETTE FACON DE FAIRE POUR UN TRUC PLUS RAPIDE*/
-	while ((*conv)->champs > 0 && ft_strlen(fmt) < (*conv)->champs)
+	while ((*conv)->champs > 0 && (int)ft_strlen(fmt) < (*conv)->champs)
 	{
-		//printf("FILL_CHAMPS BCL _%c_ %d %d\n", *c, (*conv)->champs, ft_strlen(fmt));
 		fmt = (ft_strchr((*conv)->attr, '-')) ?
 			ft_addinstr(fmt, c, 0, ft_strlen(fmt)) :
 			ft_addinstr(fmt, c, 0, index);

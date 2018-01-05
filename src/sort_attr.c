@@ -6,13 +6,13 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/22 17:28:24 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/11/21 16:26:21 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2018/01/05 13:45:39 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-void		check_doublon(t_conv **conv, char **a)
+void		check_doublon(char **a)
 {
 	int		i;
 	int		j;
@@ -35,32 +35,14 @@ void		check_doublon(t_conv **conv, char **a)
 	}
 }
 
-void		zero_front(t_conv **conv, char **a)
-{
-	char	tmp;
-	int		i;
-
-	tmp = 0;
-	i = 0;
-	if (ft_strchr(*a, '0'))
-	{
-		tmp = **a;
-		i = ft_strfind(*a, '0');
-		**a = '0';
-		*(*a + i) = tmp;
-	}
-}
-
 void		sort_attr(t_conv **conv, char **a)
 {
 	int		i;
-	int		j;
 	char	tmp;
 
 	tmp = 0;
 	i = 0;
-	i = 0;
-	check_doublon(conv, a);
+	check_doublon(a);
 	if (ft_strchr(*a, ' ') && ft_strchr(*a, '+'))
 	{
 		i = ft_strfind(*a, ' ');

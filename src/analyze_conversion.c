@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/11 12:17:54 by pgerbaud          #+#    #+#             */
-/*   Updated: 2018/01/04 13:26:59 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2018/01/05 14:22:14 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@
 **	return (1);
 */
 
-int			get_lst_conv(const char *format, t_conv **lstconv, va_list args)
+int			get_lst_conv(t_conv **lstconv, va_list args)
 {
 	t_conv	*lstmp;
 
@@ -61,21 +61,19 @@ int			get_lst_conv(const char *format, t_conv **lstconv, va_list args)
 	return (1);
 }
 
-int			analyze_conversion_dtls(char *s, t_conv **lstconv, va_list a)
+int			analyze_conversion_dtls(char *s, t_conv **lstconv)
 {
 	char			*tmp;
-	static ft_fmt	func;
+	static t_fmt	func;
 
-	//printf("ANALYZE_DTLS 0 _%s_\n", s);
 	initiate_pointer(func);
 	tmp = (char *)s;
-	//printf("ANALYZE_DTLS 1 _%s_%s_\n", s, tmp);
 	tmp++;
 	while (*tmp)
 	{
-		if (func[*tmp])
+		if (func[(int)*tmp])
 		{
-			tmp = func[*tmp](lstconv, tmp);
+			tmp = func[(int)*tmp](lstconv, tmp);
 			if (tmp == (char *)-1)
 				return (0);
 			if (!tmp)
@@ -84,7 +82,6 @@ int			analyze_conversion_dtls(char *s, t_conv **lstconv, va_list a)
 		else
 			tmp++;
 	}
-	//printf("ANALYZE_DTLS _%s_\n", tmp);
 	return (1);
 }
 
@@ -94,23 +91,19 @@ int			analyze_conversion(const char *format, va_list args, t_conv **lst)
 	char	*tmp;
 	char	*del;
 
-	//printf("ANALYZE CONV 0 fmt_%s_\n", format);
 	tmp = ft_strdup(format);
 	del = tmp;
 	lstmp = *lst;
-	//printf("ANALYZE CONV 1 tmp_%s_\n", tmp);
 	while (*tmp)
 	{
 		while ((*lst)->next)
 			*lst = (*lst)->next;
-		//printf("ANALYZE CONV 1.0 tmp_%s_\n", tmp);
 		if (!(tmp = ft_strchr(tmp, '%')))
 			break ;
-		//printf("ANALYZE CONV 1.1 tmp_%s_\n", tmp);
-		if (!analyze_conversion_dtls(tmp, lst, args))
+		if (!analyze_conversion_dtls(tmp, lst))
 			return (0);
 		tmp = ft_strmchr(tmp, "diuxXeEfFaAgGcCsSpn%");
-		(*lst)->next = create_lst_conv(); /*TENTER DE CHANGER LA FACON DE CREER UNE STRUCT */
+		(*lst)->next = create_lst_conv();
 		((*lst)->next)->pos = (*lst)->pos + 1;
 		if (*tmp == '%' && *(tmp + 1) == '%')
 			tmp++;
@@ -118,13 +111,5 @@ int			analyze_conversion(const char *format, va_list args, t_conv **lst)
 	}
 	ft_strdel(&del);
 	*lst = lstmp;
-	get_lst_conv(format, lst, args);
-			t_conv *ltmp;
-			ltmp = lstmp;
-			while (ltmp)
-			{
-				//printf("--- PRINT UNDERZERO %d\n%p %p\n", ltmp->pos, ltmp->sdata, ltmp->data);
-				ltmp = ltmp->next;
-			}
-	return (1);
+	return (get_lst_conv(lst, args));
 }

@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/05 10:03:38 by pgerbaud          #+#    #+#             */
-/*   Updated: 2018/01/04 20:14:27 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2018/01/05 14:01:39 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,18 @@ int			lst_final_size(t_conv *lst)
 	int		i;
 
 	i = 0;
-	//printf("\t\t-- LST_ULTILS %c --\n", lst->conv);
 	if (ft_strchr("dDi", lst->conv))
 	{
-		//printf("\t\t LST_ULTILS  dDii %d\n", i);
 		if (lst->data && *(lst->data))
 			i = ft_iprintsize(*(lst->data)) + 1;
-		//printf("\t\t LST_ULTILS  dDii %d\n", i);
 	}
 	else if (ft_strchr("oOuUxXpP", lst->conv))
 	{
-		//printf("\t\t LST_ULTILS  oOuUxXpP %d\n", i);
 		if (lst->udata)
 			i = ft_uiprintsize(lst->udata) + 1;
-		//printf("\t\t LST_ULTILS  oOuUxXpP %d\n", i);
 	}
 	else if (ft_strchr("csCS", lst->conv))
 	{
-		//printf("\t\t LST_ULTILS cs %p\n", lst->sdata);
 		if ((long)lst->sdata)
 			i = (int)ft_strlen((char *)lst->sdata);
 		if ((long)lst->sdata)
@@ -66,22 +60,21 @@ int			lst_final_size(t_conv *lst)
 				i = wchar_size(lst->sdata);
 	}
 	i += 6;
-	//printf("\t\t LST_FINAL_SIZE i%d chps%d prec%d\n", i, lst->champs, lst->precision);
-	//printf("\t\t LST_FINAL_SIZE i%d chps%d prec%d data%d udata%d sdata%s\n", i, lst->champs, lst->precision, ft_iprintsize(lst->data), ft_uiprintsize(lst->udata), (int)ft_strlen((char *)lst->sdata));
 	i += lst->champs;
 	i += lst->precision;
 	return (i);
 }
 
-int			lst_size(t_conv *lst)
+int			lst_sum_size(t_conv *lst, char *format)
 {
-	int	i;
+	int		i;
 
 	i = 0;
-	while (lst)
+	while (lst->next)
 	{
-		i++;
+		i += lst_final_size(lst);
 		lst = lst->next;
 	}
+	i += ft_strlen(format);
 	return (i);
 }

@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/20 15:21:29 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/12/07 18:36:21 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2018/01/05 14:11:43 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ char		*wcharstr_to_str(wchar_t *swchar, t_conv **conv)
 	while (*(swchar + i))
 	{
 		if ((*conv)->prec_changed &&
-				ft_strlen(str) + ft_strlen(wchar_to_str(*(swchar + i)))
+				(int)ft_strlen(str) +
+				(int)ft_strlen(wchar_to_str(*(swchar + i)))
 				> (*conv)->precision)
 			break ;
 		str = ft_strjoinfree(str, wchar_to_str(*(swchar + i)));

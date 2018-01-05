@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/16 16:28:53 by pgerbaud          #+#    #+#             */
-/*   Updated: 2018/01/04 16:05:57 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2018/01/05 14:07:40 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,6 @@ char		*field_fmt(t_conv **lstconv, char *fmt)
 	s = NULL;
 	if (*fmt == '*')
 		return ((char *)-1);
-/*	{
-		field_next = 1;
-		fmt++;
-	}*/
 	while (ft_strchr("0123456789", fmt[i]))
 		i++;
 	s = ft_strsub(fmt, 0, i);
@@ -81,14 +77,12 @@ char		*attr_fmt(t_conv **lstconv, char *fmt)
 
 	tmp = NULL;
 	i = 0;
-	while (ft_strchr("#0-+ ", *fmt))
+	while (ft_strchr("#0-+ ", *fmt) && *fmt)
 	{
-		//printf("SEGATTR 0\n");
 		if (*fmt == '0' && ft_strchr((*lstconv)->attr, '+'))
 			(*lstconv)->attr = ft_addinstr((*lstconv)->attr, "0", 0, 0);
 		else
 			(*lstconv)->attr[i++] = *fmt;
-		//printf("SEGATTR 1\n");
 		if (*fmt == '-')
 			if ((tmp = ft_strchr((*lstconv)->attr, '0')))
 				while (*tmp)

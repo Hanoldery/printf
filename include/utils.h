@@ -6,16 +6,12 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/11 12:09:33 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/12/07 18:36:45 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2018/01/05 14:26:04 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRINTF_UTILS_H
-# define PRINTF_UTILS_H
-
-/*
-	Verifier si un lien entre define et nom de fichier
-*/
+#ifndef UTILS_H
+# define UTILS_H
 
 # include <inttypes.h>
 # include <wchar.h>
@@ -43,13 +39,13 @@ typedef struct		s_conv
 	struct s_conv	*next;
 }					t_conv;
 
-typedef char *(*ft_fmt[123])(t_conv **conv, char *fmt);
+typedef char *(*t_fmt[123])(t_conv **conv, char *fmt);
 int					analyze_conversion(const char *format, va_list args,
 		t_conv **lst);
 t_conv				*create_lst_conv();
 int					lst_final_size(t_conv *lst);
-int					get_lst_conv(const char *format, t_conv **lstconv,
-		va_list args);
+int					lst_sum_size(t_conv *lst, char *format);
+int					get_lst_conv(t_conv **lstconv, va_list args);
 
 void				assign_arg(t_conv **conv, va_list args);
 void				assign_arg_unsigned(t_conv **conv, va_list args);
@@ -58,12 +54,13 @@ void				assign_arg_special(t_conv **conv, va_list args);
 void				assign_next(t_conv **conv, va_list args, int j, int *i);
 
 int					fill_result(t_conv **lst, char *fmt);
-void				initiate_pointer(ft_fmt func);
-void				initiate_pointer_print(ft_fmt func);
+void				initiate_pointer(t_fmt func);
+void				initiate_pointer_print(t_fmt func);
 int					id_of_char_ifnextnot(char *str, char c, char n);
 void				sort_attr(t_conv **conv, char **attr);
 char				*ft_addinstr(char *dst, char *a, char *c, int i);
-char				*ft_addinstrtest(char *dst, char *a, char *c, int i, t_conv *lst);
+char				*ft_addinstrtest(char *dst, char *a, char *c, int i,
+		t_conv *lst);
 
 char				*field_fmt(t_conv **conv, char *fmt);
 char				*prec_fmt(t_conv **conv, char *fmt);

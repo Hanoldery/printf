@@ -6,12 +6,12 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/10 20:47:40 by pgerbaud          #+#    #+#             */
-/*   Updated: 2017/08/12 18:52:39 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2018/01/05 14:25:03 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FTPRINTF_H
-# define FTPRINTF_H
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
 int		ft_printf(const char *format, ...);
 

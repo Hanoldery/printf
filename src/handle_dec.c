@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/19 14:45:24 by pgerbaud          #+#    #+#             */
-/*   Updated: 2018/01/04 15:57:41 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2018/01/05 14:27:38 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char		*fill_prec(char *fmt, int prec, int sign)
 {
-	while (ft_strlen(fmt) < prec + sign)
+	while ((int)ft_strlen(fmt) < prec + sign)
 		fmt = ft_addinstr(fmt, "0", 0, sign);
 	return (fmt);
 }
@@ -23,10 +23,10 @@ char		*handle_x(t_conv **conv, char *fmt)
 {
 	int		i;
 	char	*str;
-/* IL Y A DU MALLOC PAR ICI, RENVOYER FMT AU LIEU DE STR */
-	//printf("HANDLE_xX \n");
+
 	i = -1;
-	if ((*conv)->udata <= -4294967295)
+	str = NULL;
+	if ((*conv)->udata <= (uintmax_t)(-4294967295))
 		str = ft_uimaxtoa_base(UINTMAX_MAX + (*conv)->udata + 1, 16);
 	else if (!((*conv)->udata > 0))
 		str = ft_uimaxtoa_base(4294967295 + (*conv)->udata + 1, 16);
@@ -51,7 +51,7 @@ char		*handle_di(t_conv **conv, char *fmt)
 {
 	int		i;
 	char	*str;
-/* IL Y A DU MALLOC PAR ICI, RENVOYER FMT AU LIEU DE STR */
+
 	str = ft_imaxtoa((*conv)->data[0]);
 	i = id_of_char_ifnextnot(fmt, '%', '%');
 	fmt = ft_addinstr(fmt, str, "%", i);
