@@ -6,13 +6,13 @@
 #    By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/08/11 13:08:28 by pgerbaud          #+#    #+#              #
-#    Updated: 2018/01/05 13:43:36 by pgerbaud         ###   ########.fr        #
+#    Updated: 2018/01/05 18:19:58 by pgerbaud         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprintf.a
 
-INCLUDE_PATH = include/ libft/
+INCLUDE_PATH = include/ libft/includes/
 
 SRCS = 	src/ft_printf.c \
 		src/analyze_conversion.c \
@@ -29,37 +29,37 @@ SRCS = 	src/ft_printf.c \
 		src/handle_sci.c \
 		src/handle_null.c
 
-LIBFT_SRC = putchar \
-			putstr \
+LIBFT_SRC = atoi \
+			bzero \
+			imaxtoa \
+			imaxtoa_base \
+			iprintsize \
+			memcpy \
+			putchar \
 			putchar_fd \
+			putstr \
 			putstr_fd \
+			straddinstr \
+			strcat \
+			strchr \
+			strcpy \
+			strdel \
+			strdelinside \
+			strdup \
+			strfill \
+			strfind \
+			strjoinfree \
+			strlen \
 			strmchr \
 			strmintchr \
-			atoi \
-			iprintsize \
-			uiprintsize \
-			strchr \
-			strsub \
-			bzero \
-			memcpy \
-			straddinstr \
-			strlen \
-			strfind \
-			strdel \
-			strdup \
-			strcpy \
-			strncpy \
-			strfill \
-			strcat \
 			strncat \
+			strncmp \
+			strncpy \
 			strnew \
-			imaxtoa \
+			strsub \
 			uimaxtoa \
-			strjoinfree \
-			imaxtoa_base \
 			uimaxtoa_base \
-			strdelinside
-CFLAGS += -Wall -Wextra -Werror
+			uiprintsize
 
 CFLAGS += $(foreach d, $(INCLUDE_PATH), -I$d)
 
@@ -82,12 +82,9 @@ $(NAME): $(OBJS)
 	ar -rcs $(NAME) $^
 
 clean :
-	rm -rf $(OBJS) src/main.o
-
-main : $(NAME) src/main.o
-	gcc -o $@ src/main.o -L. -lftprintf
+	rm -rf $(OBJS)
 
 fclean : clean
-	rm -rf $(NAME)
+	rm -rf $(NAME) libft/libft.a
 
 .PHONY: all clean fclean re

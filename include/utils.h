@@ -6,7 +6,7 @@
 /*   By: pgerbaud <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/11 12:09:33 by pgerbaud          #+#    #+#             */
-/*   Updated: 2018/01/05 14:26:04 by pgerbaud         ###   ########.fr       */
+/*   Updated: 2018/01/05 18:14:10 by pgerbaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <stdarg.h>
 # include <locale.h>
 # include <limits.h>
-# include "../libft/libft.h"
+# include "../libft/includes/libft.h"
 
 typedef struct		s_conv
 {
